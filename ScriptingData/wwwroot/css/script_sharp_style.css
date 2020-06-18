@@ -8,9 +8,6 @@ nav{
     display:none;
 }
 
-.content{
-    position:relative;
-}
 body{
     background-color: black
 }
@@ -23,13 +20,18 @@ button:hover{
     outline:unset;
 }
 
+button:focus{
+    outline:unset;
+    border:unset;
+}
+
 button:active{
     outline:unset;
     border:unset;
 }
 
 input:focus{
-    outline:none;
+    outline:unset;
 }
 
 .page {
@@ -43,9 +45,15 @@ input:focus{
     flex-direction:column;
 }
 
+#main_footer {
+    display: none;
+}
+
 .page_container{
+    position:relative;
     width:1800px;
-    height:850px;
+    min-height:850px;
+    max-height:100vh;
     display:grid;
     grid-template-columns: 650px 1150px;
     grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr;
@@ -68,6 +76,10 @@ input:focus{
     grid-area: console_output;
     color: #e8e8e8;
     overflow-y: scroll;
+}
+
+.console_output .console_output_container{
+    max-height: 520px;
 }
 
 .console_output::-webkit-scrollbar {
@@ -99,14 +111,23 @@ input:focus{
 
 }
 
-.output .info{
-    color:#84aee1;
+.output p{
+    display:block;
+    font-size:1.3rem;
+}
+
+.output .info {
+    color: #84aee1;
 }
 
 .output .error{
     color:#aa616f;
 }
 
+h2{
+    font-weight: 900;
+    font-size:2rem;
+}
 
 /*------------------*/
 
@@ -139,6 +160,8 @@ input:focus{
 .console textarea{
     width: 100%;
     height:100%;
+    margin: 1em 0 0 0;
+    font-size: 1.2rem;
     background-color: unset;
     height:150px;
     border-radius:unset;
@@ -156,6 +179,7 @@ input:focus{
 .console button{
     background-color: #2b5180;
     color: #e8e8e8;
+    font-size: 1.1rem;
     border:unset;
     text-transform:uppercase;
     font-weight: 800;
@@ -197,12 +221,13 @@ input:focus{
     background-color: #38659c;
 }
 
+
 .graph h2 {
     text-align: center;
     letter-spacing: 5px;
-    margin:0;
-    padding:0.2em 0;
-    font-size:1.5rem;
+    margin: 0;
+    padding: 0.2em 0;
+    font-size: 1.5rem;
 }
 
 .menu_btn {
@@ -236,8 +261,8 @@ input:focus{
 
 .graph .enlarge_btn_container{
     position:absolute;
-    top:72px;
-    right:55px;
+    top:130px;
+    right:8px;
     z-index:2;
 }
 
@@ -255,8 +280,8 @@ input:focus{
 
 .graph .data_btn_container {
     position: absolute;
-    top: 72px;
-    right: 100px;
+    top: 188px;
+    right: 8px;
     z-index: 2;
 }
 
@@ -292,6 +317,7 @@ text{
 
 .data {
     background-color: rgba(63, 112, 173, 0.6);
+    max-height: 420px;
     grid-area: data;
 }
 
@@ -305,17 +331,25 @@ text{
 
 .data .btn_container button{
     height:100%;
-    width:100px;
+    width:250px;
     background-color: #cb8e53;
     color: #e8e8e8;
     border: unset;
-    font-weight: 600;
+    font-weight: 900;
+    font-size:1.4rem;
     padding: 0.3em 0.5em;
     transition: 0.5s background-color;
+
 }
 
 .data .btn_container button:hover{
     background-color: #38659c;
+}
+
+.data .scroll_graphs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr;
+    grid-gap: 2px;
 }
 
 .data h2 {
@@ -336,8 +370,8 @@ text{
 }
 
 .data .table_container{
-    padding: 0 0.2em;
-    height: 370px;
+    padding: 10px 0.2em 0 0.2em;
+    height: 347px;
     overflow-y:scroll;
 }
 
@@ -421,6 +455,8 @@ text{
 
 .chart_lg_box {
     position:absolute;
+    top:0;
+    left:0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -485,13 +521,15 @@ text{
 }
 
 .chart_data_box {
-    position:absolute;
+    position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
     justify-content: center;
-    align-items:center;
-    align-content:center;
+    align-items: center;
+    align-content: center;
     background-color: rgba(0, 0, 0, 0.6);
     z-index: 100;
 }
@@ -502,13 +540,43 @@ text{
     background-color:rgba(43, 81, 128, 0.4);
 }
 
-.chart_data_box .data_chart_container{
-    height:100%;
-    width:100%;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    align-content:center;
+#chartdiv path {
+    fill: #4184db;
+    stroke: #4184db;
+}
+
+#chartdiv tspan {
+    color: #fff !important;
+    fill: #fff !important;
+}
+
+#chartdiv svg {
+    color: #fff !important;
+}
+
+#largeChartdiv path {
+    fill: #4184db;
+    stroke: #4184db;
+}
+
+#largeChartdiv tspan {
+    color: #fff !important;
+    fill: #fff !important;
+}
+
+#largeChartdiv svg {
+    color: #fff !important;
+}
+
+
+
+.chart_data_box .data_chart_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
     padding: 4em;
 }
 
@@ -605,6 +673,8 @@ text{
 
 .edit_row_box {
     position: absolute;
+    top:0;
+    left:0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -733,6 +803,8 @@ text{
 
 .edit_column_box {
     position: absolute;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     display: flex;
@@ -842,3 +914,179 @@ text{
 .edit_column_box .enlarge_btn_container button:hover{
     color:#cb8e53;
 }
+
+/*----------------------------------------------*/
+
+/*Commands style*/
+.commands_box_none{
+    display:none;
+}
+
+.commands_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.commands_box .all_commands {
+    width: 1850px;
+    height: 100%;
+    background-color: rgba(43, 81, 128, 0.4);
+}
+
+.commands_box .all_commands_container{
+    height:100%;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    align-content:center;
+    padding: 4em;
+}
+
+.commands_box .bacground{
+    width:600px;
+    padding: 2em;
+    position:relative;
+    height:100%;
+    background-color: rgb(43, 81, 128);
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+    overflow-y:scroll;
+}
+
+.commands_box .bacground::-webkit-scrollbar {
+    background-color: #2b5180;
+    border-radius: unset;
+}
+
+.commands_box .bacground::-webkit-scrollbar-thumb {
+    background-color: #8a6f54;
+    cursor: grab;
+}
+
+.commands_box .title_container{
+    width:100%;
+    margin-bottom:1em;
+    text-align:center;
+}
+
+.commands_box h1{
+    margin-top:15em;
+    font-size:2rem;
+}
+
+.commands_box p{
+    margin-bottom:0.5em;
+    font-size: 0.9rem;
+    line-height: 20px;
+    padding-bottom:0.1em;
+    border-bottom:1px solid #4184db;
+}
+
+.commands_box .command{
+    font-weight:700;
+    color:#cb8e53;
+}
+
+.commands_box .enlarge_btn_container {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+}
+
+.commands_box .enlarge_btn_container button {
+    background-color: transparent;
+    color: white;
+    border: unset;
+    font-size: 2rem;
+    margin: 0 0.5em;
+    transition: 0.5s color;
+}
+
+.commands_box .enlarge_btn_container button:hover {
+    color: #cb8e53;
+}
+
+
+
+/*------------*/
+
+
+/*Menu style*/
+.menu_box_none{
+    display:none;
+}
+
+.menu_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.menu_box .menu {
+    width: 1850px;
+    height: 100%;
+    background-color: rgba(43, 81, 128, 0.4);
+}
+
+.menu_box .menu_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 4em;
+}
+
+.menu_box .menu_bacground {
+    width: 600px;
+    padding: 2em;
+    position: relative;
+    height: 100%;
+    background-color: rgb(43, 81, 128);
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    overflow-y: scroll;
+}
+
+
+.menu_box .enlarge_btn_container {
+    position: absolute;
+    top: 20px;
+    right: 50px;
+}
+
+.menu_box .enlarge_btn_container button {
+    background-color: transparent;
+    color: white;
+    border: unset;
+    font-size: 2rem;
+    margin: 0 0.5em;
+    transition: 0.5s color;
+}
+
+.menu_box .enlarge_btn_container button:hover {
+    color: #cb8e53;
+}
+
+/*----------------------------------------*/

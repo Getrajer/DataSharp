@@ -10,7 +10,6 @@
 <head>
     <link href="../css/script_sharp_style.css" rel="stylesheet" />
 </head>
-
 <section class="page">
     <div class="page_container">
 
@@ -71,8 +70,8 @@
         <section class="graph">
             <div class="graph_container">
                 <div class="title_container">
-                    <div class="h_container"><h2>Graphs</h2></div>
-                    <div class="btn_container"><button class="menu_btn">Menu</button></div>
+                    <div class="h_container"><h2>Charts</h2></div>
+                    <div class="btn_container"><button @onclick="ToggleMenu" class="menu_btn">Menu</button></div>
                 </div>
                 <div class="scroll_graphs">
                     @if (FourColumnCharts.Count > 0)
@@ -128,27 +127,63 @@
             <div class="data_container">
                 <div class="title_container">
                     <div class="h_container"><h2>Data</h2></div>
-                    <div class="btn_container"><button class="menu_btn">Menu</button></div>
+                    <div class="btn_container"><button @onclick="ToggleCommandsList" class="menu_btn">See all commands</button></div>
                 </div>
+
+                <div class="scroll_graphs">
+                    @if (Data_Sets_List.Count > 0)
+                    {
+                        @if (FourDataSets[0].Id != 0)
+                        {
+                            <div class="scroll">
+                                <button @onclick="LoadPreviousFourDatasets">&lt;---</button>
+                            </div>
+                        }
+                    }
+
+                    @foreach (var f in FourDataSets)
+                    {
+                        <div class="scroll">
+                            <button title="@f.Name" @onclick="@(e => ChangeDataset(f))">@f.Name</button>
+                        </div>
+                    }
+
+
+                    @if (FourDataSets.Count > 3)
+                    {
+                        @if (Data_Sets_List.Count > (FourDataSets[3].Id + 1))
+                        {
+                            <div class="scroll">
+                                <button @onclick="LoadNextFourDataset">---&gt;</button>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+
                 <div class="table_container">
                     <table style="width:100%">
-                        @foreach(var l in labels_datasets)
+                        @foreach (var l in labels_datasets)
                         {
-                            if(l.Id == showcase_dataset.Id)
+                            if (l.Id == showcase_dataset.Id)
                             {
                                 <tr>
-                                    @foreach(var lab in l.LableCllection)
+                                    @foreach (var lab in l.LableCollection)
                                     {
                                         @if (lab.IsDouble == true)
                                         {
                                             <td class="sort_button" @onclick="@(e => SortShowcaseDataset(lab.Id, l.Id))">@lab.Label</td>
                                         }
-                                        
-                                        @if(lab.IsString == true)
+
+                                        @if (lab.IsString == true)
                                         {
                                             <td class="head_td">@lab.Label</td>
                                         }
                                     }
+
+                                    <td></td>
+                                    <td></td>
                                 </tr>
                             }
                         }
@@ -159,14 +194,14 @@
 
                                 @foreach (var v in rc.Row)
                                 {
-                                    if(v.Id != 1)
+                                    if (v.Id != 1)
                                     {
                                         if (v.IsDouble == true)
                                         {
                                             <td><input @bind="v.DoubleData" /></td>
                                         }
-                                    
-                                        if(v.IsString == true)
+
+                                        if (v.IsString == true)
                                         {
                                             <td><input @bind="v.StringData" /></td>
                                         }
@@ -177,8 +212,8 @@
                                         {
                                             <td>@v.DoubleData</td>
                                         }
-                                    
-                                        if(v.IsString == true)
+
+                                        if (v.IsString == true)
                                         {
                                             <td>@v.StringData</td>
                                         }
@@ -187,10 +222,10 @@
 
                                 }
 
-                                
+
                                 <td><button @onclick="@(e => EditDatasetRowToggler(rc.Id))">Edit</button></td>
                                 <td><button @onclick="@(e => DeleteRowDataset(rc.Id))">Del</button></td>
-                                
+
                             </tr>
                         }
                     </table>
@@ -204,6 +239,102 @@
 
 
 </section>
+
+<div class="@commands_toggle_class">
+    <section class="all_commands">
+        <div class="all_commands_container">
+            <div class="bacground">
+
+                <div class="title_container">
+                    <h1>All commands</h1>
+                </div>
+                <div class="commands">
+                    <p>
+                        <span class="command">gets |name of dataset| |path to csv file|</span> - This function will get data from csv file.
+                        <br /> |name of dataset| - this is your custom name for dataset
+                        <br /> |path to csv file| - path to the file you want to upload data from
+                    </p>
+
+                    <p>
+                        <span class="command">summ |dataset name| |label name|</span> - This function will summ all numeric values in dataset by label
+                        <br />|dataset name| - name dataset from which to summ
+                        <br />|label name| - label which datapints are going to be summed it needs to be numeric
+                    </p>
+
+                    <p>
+                        <span class="command">dele dataset |dataset name|</span> - This function will delete dataset by its name.
+                        <br />|dataset name| - name of dataset which will be deleted
+                    </p>
+
+                    <p>
+                        <span class="command">colu create |name of chart| |dataset name| |name for the data point| |value for data point|</span> - This function will create column chart
+                        <br />|name of chart| - this is custom name for chart
+                        <br />|dataset name| - name of dataset from which you want to get data from
+                        <br />|name for data poin| - name  for data point from dataset column label | if you do not have label write in here '#numeric'
+                        <br />|value for data point| - value for data point from dataset column label | IT NEEDS TO BE NUMERIC
+                    </p>
+
+                    <p>
+                        <span class="command">sort |chart name| min max</span> - This function will sort chart from smallest value to highest.
+                        <br />|chart name| - name of chart which will be sorted
+                    </p>
+                    <p>
+                        <span class="command">sort |chart name| max min</span> - This function will sort chart from highest value to smallest.
+                        <br />|chart name| - name of chart which will be sorted
+                    </p>
+                    <p>
+                        <span class="command">medi |chart name|</span> - This function will find median for chart. It will be from numeric value of data point.
+                        <br />|chart name| - name of chart which will median be found
+                    </p>
+                    <p>
+                        <span class="command">mode name |chart name|</span> - This function will find mode for chart by names of data point.
+                        <br />|chart name| - name of chart which will mode be found
+                    </p>
+                    <p>
+                        <span class="command">mode number |chart name|</span> - This function will find mode for chart by its numeric data value.
+                        <br />|chart name| - name of chart which will mode be found
+                    </p>
+                    <p>
+                        <span class="command">mean |chart name|</span> - This function will find mean for chart by its numeric numeric data value.
+                        <br />|chart name| - name of chart which will mean be found
+                    </p>
+
+                    <p>
+                        <span class="command">dele column chart |chart name|</span> - This function will delete chart by its name.
+                        <br />|chart name| - name of chart which will be deleted
+                    </p>
+                    <p>
+                        <span class="command">remo column chart |chart name| from |begin index| to |end index|</span> - This function will delete all data points from begin index to end index
+                        <br />|chart name| - name of chart from which to delete
+                        <br />|begin index| - index from which to delete data points
+                        <br />|end index| - index to which delete data points
+                    </p>
+                    <p>
+                        <span class="command">remo coulumn chart |chart name| at |index|</span> - This function will delete chart data point on index
+                        <br />|chart name| - name of chart from which to delete
+                        <br />|index| - index of point which to delete
+                    </p>
+                    <p>
+                        <span class="command">remo column chart |chart name| all gt |value|</span> - This function will delete all data points by its numeric value greater than |value|
+                        <br />|chart name| - name of chart from which to delete
+                        <br />|value| - value where all other greater than it are going to be deleted
+                    </p>
+                    <p>
+                        <span class="command">remo column chart |chart name| all lt |value|</span> - This function will delete all data points by numeric value lower than |value|
+                        <br />|chart name| - name of chart from which to delete
+                        <br />|value| - value where all other lower than it are going to be deleted
+                    </p>
+
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleCommandsList">X</button>
+    </div>
+</div>
 
 <!--This box will hold column chart when enlarged-->
 <div class="@lg_toggle_class">
@@ -312,7 +443,7 @@
                     </div>
 
                     <div class="button_container">
-                        <button  @onclick="@(e => ToggleEditColumnObject(0, 0))">Cancel</button>
+                        <button @onclick="@(e => ToggleEditColumnObject(0, 0))">Cancel</button>
                         <br />
                         <br />
                         <button @onclick="EditColumnObject">Edit</button>
@@ -323,6 +454,22 @@
     </section>
 </div>
 <!-------------------------->
+<div class="@menu_toggle_class">
+    <section class="menu">
+        <div class="menu_container">
+            <div class="menu_background">
+                <div class="title_container">
+                    <h1>Menu comes in update set on 22.06.2020/As well with Json request data fetching/More function for getting information from data</h1>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleMenu">X</button>
+    </div>
+</div>
 
 @code{
 

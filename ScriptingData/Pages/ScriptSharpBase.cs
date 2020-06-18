@@ -98,11 +98,11 @@ namespace ScriptingData.Pages
         public class Labels
         {
             public int Id { get; set; }
-            public List<LabelDataset> LableCllection = new List<LabelDataset>();
+            public List<LabelDataset> LableCollection = new List<LabelDataset>();
 
-            public Labels() 
+            public Labels()
             {
-                LableCllection = new List<LabelDataset>();
+                LableCollection = new List<LabelDataset>();
             }
         }
 
@@ -337,17 +337,7 @@ namespace ScriptingData.Pages
                                         if (File.Exists(FilePath))
                                         {
                                             ConsoleInHistory(consoleInput);
-
-                                            new_dataset = PopulateDataset();
-                                            new_dataset.Name = name;
-
-                                            if (Data_Sets_List.Count == 0) { new_dataset.Id = 0; }
-                                            if (Data_Sets_List.Count > 0) { new_dataset.Id = Data_Sets_List.Count - 1; }
-
-                                            Data_Sets_List.Add(new_dataset);
-                                            showcase_dataset = Data_Sets_List[Data_Sets_List.Count - 1];
-                                            ConsoleInfo($"Dataset Created | name: {new_dataset.Name} | {new_dataset.Data.Count} rows | {new_dataset.Data[0].Row.Count} parameters |");
-
+                                            PopulateDataset(console_in_breakdown[1]);
                                             consoleInput = "";
                                         }
                                         else
@@ -557,16 +547,16 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {
-                                        for(int i = 0; i < column_graphs.Count; i++)
+                                        for (int i = 0; i < column_graphs.Count; i++)
                                         {
-                                            if(column_graphs[i].Name == console_in_breakdown[1])
+                                            if (column_graphs[i].Name == console_in_breakdown[1])
                                             {
                                                 chart_name = console_in_breakdown[1];
                                                 chart_name_found = true;
                                             }
                                         }
 
-                                        if(chart_name_found == false)
+                                        if (chart_name_found == false)
                                         {
                                             ConsoleInHistory(consoleInput);
                                             ConsoleError($"Could not find the chart by this name: {console_in_breakdown[1]}");
@@ -575,7 +565,7 @@ namespace ScriptingData.Pages
                                         }
                                     }
 
-                                    if(console_in_breakdown[2] == "")
+                                    if (console_in_breakdown[2] == "")
                                     {
                                         ConsoleInHistory(consoleInput);
                                         ConsoleError("Wrong syntax");
@@ -584,9 +574,9 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {
-                                        if(console_in_breakdown[2] == "min")
+                                        if (console_in_breakdown[2] == "min")
                                         {
-                                            if(console_in_breakdown[3] == "max")
+                                            if (console_in_breakdown[3] == "max")
                                             {
                                                 SortColumnMinMax(chart_name);
 
@@ -603,9 +593,9 @@ namespace ScriptingData.Pages
                                                 break;
                                             }
                                         }
-                                        else if(console_in_breakdown[2] == "max")
+                                        else if (console_in_breakdown[2] == "max")
                                         {
-                                            if(console_in_breakdown[3] == "min")
+                                            if (console_in_breakdown[3] == "min")
                                             {
                                                 SortColumnMaxMin(chart_name);
 
@@ -640,9 +630,9 @@ namespace ScriptingData.Pages
                             {
                                 string[] console_in_breakdown = consoleInput.Split(" ");
 
-                                if(console_in_breakdown.Length == 2)
+                                if (console_in_breakdown.Length == 2)
                                 {
-                                    if(console_in_breakdown[1] == "")
+                                    if (console_in_breakdown[1] == "")
                                     {
                                         ConsoleInHistory(consoleInput);
                                         ConsoleError("Wrong syntax");
@@ -651,11 +641,11 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {
-                                        if(column_graphs.Count > 0)
+                                        if (column_graphs.Count > 0)
                                         {
-                                            for(int i = 0; i < column_graphs.Count; i++)
+                                            for (int i = 0; i < column_graphs.Count; i++)
                                             {
-                                                if(column_graphs[i].Name == console_in_breakdown[1])
+                                                if (column_graphs[i].Name == console_in_breakdown[1])
                                                 {
                                                     ConsoleInHistory(consoleInput);
 
@@ -687,7 +677,7 @@ namespace ScriptingData.Pages
 
                                 if (console_in_breakdown.Length == 2)
                                 {
-                                    if(console_in_breakdown[1] == "")
+                                    if (console_in_breakdown[1] == "")
                                     {
                                         ConsoleInHistory(consoleInput);
                                         ConsoleError("Wrong syntax");
@@ -696,11 +686,11 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {
-                                        if(column_graphs.Count > 0)
+                                        if (column_graphs.Count > 0)
                                         {
-                                            for(int i = 0; i < column_graphs.Count; i++)
+                                            for (int i = 0; i < column_graphs.Count; i++)
                                             {
-                                                if(column_graphs[i].Name == console_in_breakdown[1])
+                                                if (column_graphs[i].Name == console_in_breakdown[1])
                                                 {
                                                     ConsoleInHistory(consoleInput);
                                                     CalcMeanColumnChart(i);
@@ -730,7 +720,7 @@ namespace ScriptingData.Pages
                                 {
                                     if (console_in_breakdown[1] == "number")
                                     {
-                                        if(console_in_breakdown[2] == "")
+                                        if (console_in_breakdown[2] == "")
                                         {
                                             ConsoleInHistory(consoleInput);
                                             ConsoleError("Wrong syntax");
@@ -739,13 +729,13 @@ namespace ScriptingData.Pages
                                         }
                                         else
                                         {
-                                            if(column_graphs.Count > 0)
+                                            if (column_graphs.Count > 0)
                                             {
                                                 bool been_found = false;
 
-                                                for(int i = 0; i < column_graphs.Count; i++)
+                                                for (int i = 0; i < column_graphs.Count; i++)
                                                 {
-                                                    if(console_in_breakdown[2] == column_graphs[i].Name)
+                                                    if (console_in_breakdown[2] == column_graphs[i].Name)
                                                     {
                                                         been_found = true;
                                                         ConsoleInHistory(consoleInput);
@@ -755,7 +745,7 @@ namespace ScriptingData.Pages
                                                     }
                                                 }
 
-                                                if(been_found == false)
+                                                if (been_found == false)
                                                 {
                                                     ConsoleInHistory(consoleInput);
                                                     ConsoleError("Did not found the chart");
@@ -765,7 +755,7 @@ namespace ScriptingData.Pages
                                             }
                                         }
                                     }
-                                    else if(console_in_breakdown[1] == "name") 
+                                    else if (console_in_breakdown[1] == "name")
                                     {
                                         if (console_in_breakdown[2] == "")
                                         {
@@ -829,7 +819,7 @@ namespace ScriptingData.Pages
                                 #region This section is for dataset delete
                                 if (console_in_breakdown.Length == 3)
                                 {
-                                    if(console_in_breakdown[1] == "")
+                                    if (console_in_breakdown[1] == "")
                                     {
                                         ConsoleInHistory(consoleInput);
                                         ConsoleError("Wrong syntax");
@@ -838,9 +828,9 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {   //If user wants to delete dataset 
-                                        if(console_in_breakdown[1] == "dataset")
+                                        if (console_in_breakdown[1] == "dataset")
                                         {
-                                            if(console_in_breakdown[2] == "")
+                                            if (console_in_breakdown[2] == "")
                                             {
                                                 ConsoleInHistory(consoleInput);
                                                 ConsoleError("Wrong syntax");
@@ -849,11 +839,11 @@ namespace ScriptingData.Pages
                                             }
                                             else
                                             {
-                                                if(Data_Sets_List.Count > 0)
+                                                if (Data_Sets_List.Count > 0)
                                                 {
-                                                    for(int i = 0; i < Data_Sets_List.Count; i++)
+                                                    for (int i = 0; i < Data_Sets_List.Count; i++)
                                                     {
-                                                        if(Data_Sets_List[i].Name == console_in_breakdown[2])
+                                                        if (Data_Sets_List[i].Name == console_in_breakdown[2])
                                                         {
                                                             ConsoleInHistory(consoleInput);
                                                             DeleteDataset(i);
@@ -876,9 +866,9 @@ namespace ScriptingData.Pages
                                 #endregion
 
                                 #region This section is for deleting entire chart
-                                if(console_in_breakdown.Length == 4)
+                                if (console_in_breakdown.Length == 4)
                                 {
-                                    if(console_in_breakdown[1] == "")
+                                    if (console_in_breakdown[1] == "")
                                     {
                                         ConsoleInHistory(consoleInput);
                                         ConsoleError("Wrong syntax");
@@ -887,9 +877,9 @@ namespace ScriptingData.Pages
                                     }
                                     else
                                     {
-                                        if(console_in_breakdown[1] == "column")
+                                        if (console_in_breakdown[1] == "column")
                                         {
-                                            if(console_in_breakdown[2] == "")
+                                            if (console_in_breakdown[2] == "")
                                             {
                                                 ConsoleInHistory(consoleInput);
                                                 ConsoleError("Wrong syntax");
@@ -898,9 +888,9 @@ namespace ScriptingData.Pages
                                             }
                                             else
                                             {
-                                                if(console_in_breakdown[2] == "chart")
+                                                if (console_in_breakdown[2] == "chart")
                                                 {
-                                                    if(console_in_breakdown[3] == "")
+                                                    if (console_in_breakdown[3] == "")
                                                     {
                                                         ConsoleInHistory(consoleInput);
                                                         ConsoleError("Wrong syntax");
@@ -909,11 +899,11 @@ namespace ScriptingData.Pages
                                                     }
                                                     else
                                                     {
-                                                        if(column_graphs.Count > 0)
+                                                        if (column_graphs.Count > 0)
                                                         {
-                                                            for(int i = 0; i < column_graphs.Count; i++)
+                                                            for (int i = 0; i < column_graphs.Count; i++)
                                                             {
-                                                                if(column_graphs[i].Name == console_in_breakdown[3])
+                                                                if (column_graphs[i].Name == console_in_breakdown[3])
                                                                 {
                                                                     ConsoleInHistory(consoleInput);
                                                                     DeleteColumnChart(i);
@@ -945,11 +935,11 @@ namespace ScriptingData.Pages
                             {
                                 string[] console_in_breakdown = consoleInput.Split(" ");
 
-                                if(console_in_breakdown[1] == "column" && console_in_breakdown[2] == "chart")
+                                if (console_in_breakdown[1] == "column" && console_in_breakdown[2] == "chart")
                                 {
-                                    if(column_graphs.Count > 0)
+                                    if (column_graphs.Count > 0)
                                     {
-                                        if(console_in_breakdown[3] == "")
+                                        if (console_in_breakdown[3] == "")
                                         {
                                             ConsoleInHistory(consoleInput);
                                             ConsoleError("Wrong syntax");
@@ -960,9 +950,9 @@ namespace ScriptingData.Pages
                                         {
                                             for (int i = 0; i < column_graphs.Count; i++)
                                             {
-                                                if(column_graphs[i].Name == console_in_breakdown[3])
+                                                if (column_graphs[i].Name == console_in_breakdown[3])
                                                 {
-                                                    if(console_in_breakdown[4] == "")
+                                                    if (console_in_breakdown[4] == "")
                                                     {
                                                         ConsoleInHistory(consoleInput);
                                                         ConsoleError("Wrong syntax");
@@ -971,7 +961,7 @@ namespace ScriptingData.Pages
                                                     }
                                                     else
                                                     {
-                                                        
+
                                                         //Delete all object from index x to index y
                                                         if (console_in_breakdown[4] == "from" && console_in_breakdown[6] == "to")
                                                         {
@@ -988,11 +978,11 @@ namespace ScriptingData.Pages
                                                                 //Check if index is an int
                                                                 bool isIntBegin = IsInt(console_in_breakdown[5]);
 
-                                                                if(isIntBegin == true)
+                                                                if (isIntBegin == true)
                                                                 {
                                                                     int start = Convert.ToInt32(console_in_breakdown[5]);
 
-                                                                    if(console_in_breakdown[7] == "")
+                                                                    if (console_in_breakdown[7] == "")
                                                                     {
                                                                         ConsoleInHistory(consoleInput);
                                                                         ConsoleError("Range needs to be as a number!");
@@ -1003,7 +993,7 @@ namespace ScriptingData.Pages
                                                                     {
                                                                         bool isIntEnd = IsInt(console_in_breakdown[7]);
 
-                                                                        if(isIntEnd == true)
+                                                                        if (isIntEnd == true)
                                                                         {
                                                                             int end = Convert.ToInt32(console_in_breakdown[7]);
                                                                             ConsoleInHistory(consoleInput);
@@ -1023,9 +1013,9 @@ namespace ScriptingData.Pages
                                                             }
                                                             #endregion
                                                         }//Remove at index
-                                                        else if(console_in_breakdown[4] == "at")
+                                                        else if (console_in_breakdown[4] == "at")
                                                         {
-                                                            if(console_in_breakdown[5] == "")
+                                                            if (console_in_breakdown[5] == "")
                                                             {
                                                                 ConsoleInHistory(consoleInput);
                                                                 ConsoleError("Wrong syntax");
@@ -1036,7 +1026,7 @@ namespace ScriptingData.Pages
                                                             {
                                                                 bool isInt = IsInt(console_in_breakdown[5]);
 
-                                                                if(isInt == true)
+                                                                if (isInt == true)
                                                                 {
                                                                     int index = Convert.ToInt32(console_in_breakdown[5]);
                                                                     RemoveFromColumnChartByIndex(index, i);
@@ -1054,9 +1044,9 @@ namespace ScriptingData.Pages
                                                                 }
                                                             }
                                                         }//Remove all variables == variable
-                                                        else if(console_in_breakdown[4] == "where")
+                                                        else if (console_in_breakdown[4] == "where")
                                                         {
-                                                            if(console_in_breakdown[5] == "")
+                                                            if (console_in_breakdown[5] == "")
                                                             {
                                                                 ConsoleInHistory(consoleInput);
                                                                 ConsoleError("Wrong syntax");
@@ -1069,7 +1059,7 @@ namespace ScriptingData.Pages
 
                                                                 bool isDouble = IsDouble(str_double);
 
-                                                                if(isDouble == true)
+                                                                if (isDouble == true)
                                                                 {
                                                                     double variable = Convert.ToDouble(str_double);
                                                                     ConsoleInHistory(consoleInput);
@@ -1086,9 +1076,9 @@ namespace ScriptingData.Pages
                                                                 }
                                                             }
                                                         }//If remove All Greater than or all lower than
-                                                        else if(console_in_breakdown[4] == "all")
+                                                        else if (console_in_breakdown[4] == "all")
                                                         {
-                                                            if(console_in_breakdown[5] == "")
+                                                            if (console_in_breakdown[5] == "")
                                                             {
                                                                 ConsoleInHistory(consoleInput);
                                                                 ConsoleError("Wrong syntax");
@@ -1098,9 +1088,9 @@ namespace ScriptingData.Pages
                                                             else
                                                             {
                                                                 //If user wants to delete all greater than
-                                                                if(console_in_breakdown[5] == "gt")
+                                                                if (console_in_breakdown[5] == "gt")
                                                                 {
-                                                                    if(console_in_breakdown[6] == "")
+                                                                    if (console_in_breakdown[6] == "")
                                                                     {
                                                                         ConsoleInHistory(consoleInput);
                                                                         ConsoleError("Wrong syntax");
@@ -1124,7 +1114,7 @@ namespace ScriptingData.Pages
                                                                         }
                                                                     }
                                                                 }
-                                                                else if(console_in_breakdown[5] == "lt")
+                                                                else if (console_in_breakdown[5] == "lt")
                                                                 {
                                                                     string str_double = console_in_breakdown[6].Replace('.', ',');
 
@@ -1187,7 +1177,7 @@ namespace ScriptingData.Pages
                             {
                                 string[] console_in_breakdown = consoleInput.Split(" ");
 
-                                if(console_in_breakdown[1] == "")
+                                if (console_in_breakdown[1] == "")
                                 {
                                     ConsoleInHistory(consoleInput);
                                     ConsoleError("Wrong syntax");
@@ -1196,18 +1186,18 @@ namespace ScriptingData.Pages
                                 }
                                 else
                                 {
-                                    if(console_in_breakdown[1] == "dataset")
+                                    if (console_in_breakdown[1] == "dataset")
                                     {
-                                        if(console_in_breakdown[2] == "")
+                                        if (console_in_breakdown[2] == "")
                                         {
                                             ConsoleInHistory(consoleInput);
                                             ConsoleError("Wrong syntax");
                                             consoleInput = "";
                                             break;
                                         }
-                                        else if(console_in_breakdown[2] == "top")
+                                        else if (console_in_breakdown[2] == "top")
                                         {
-                                            if(console_in_breakdown[3] == "")
+                                            if (console_in_breakdown[3] == "")
                                             {
                                                 ConsoleInHistory(consoleInput);
                                                 ConsoleError("Wrong syntax");
@@ -1233,7 +1223,7 @@ namespace ScriptingData.Pages
                                             }
                                         }
                                     }
-                                    else if(console_in_breakdown[1] == "chart")
+                                    else if (console_in_breakdown[1] == "chart")
                                     {
                                         if (console_in_breakdown[2] == "")
                                         {
@@ -1282,6 +1272,92 @@ namespace ScriptingData.Pages
                                 break;
                             }
 
+                        //This function will sum all data points from dataset of the same type
+                        case "summ":
+                            {
+                                string[] console_in_breakdown = consoleInput.Split(" ");
+
+                                if (console_in_breakdown.Length == 3)
+                                {
+                                    if (console_in_breakdown[1] == "")
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Wrong syntax");
+                                        consoleInput = "";
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        if (Data_Sets_List.Count == 0)
+                                        {
+                                            ConsoleInHistory(consoleInput);
+                                            ConsoleError("There is no datasets");
+                                            consoleInput = "";
+                                            break;
+                                        }
+                                        else
+                                        {
+                                            bool foundDataset = false;
+
+                                            for (int i = 0; i < Data_Sets_List.Count; i++)
+                                            {
+                                                if (Data_Sets_List[i].Name == console_in_breakdown[1])
+                                                {
+                                                    foundDataset = true;
+
+                                                    bool foundLabel = false;
+                                                    for (int j = 0; j < labels_datasets[i].LableCollection.Count; j++)
+                                                    {
+                                                        if (labels_datasets[i].LableCollection[j].Label == console_in_breakdown[2])
+                                                        {
+                                                            foundLabel = true;
+                                                            ConsoleInHistory(consoleInput);
+                                                            SumAllDatasetOfType(i, labels_datasets[i].LableCollection[j].Label);
+                                                            consoleInput = "";
+                                                            break;
+                                                        }
+                                                    }
+
+                                                    if (foundLabel == false)
+                                                    {
+                                                        ConsoleInHistory(consoleInput);
+                                                        ConsoleError("Could not found this label");
+                                                        consoleInput = "";
+                                                        break;
+                                                    }
+                                                }
+                                            }
+
+                                            if (foundDataset == false)
+                                            {
+                                                ConsoleInHistory(consoleInput);
+                                                ConsoleError($"Could not find this dataset: {console_in_breakdown[1]}");
+                                                consoleInput = "";
+                                                break;
+                                            }
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    ConsoleInHistory(consoleInput);
+                                    ConsoleError("Wrong syntax");
+                                    consoleInput = "";
+                                    break;
+                                }
+
+                                break;
+                            }
+
+                        //This will load Example
+                        case "exmp":
+                            {
+                                ConsoleInHistory(consoleInput);
+                                CreateExample();
+                                consoleInput = "";
+                                break;
+                            }
+
 
                         default:
                             {
@@ -1305,6 +1381,40 @@ namespace ScriptingData.Pages
         }
         #endregion
 
+        protected override async Task OnInitializedAsync()
+        {
+            ConsoleInHistory("To load example enter: 'exmp' ");
+        }
+
+        #region Example generator
+        /// <summary>
+        /// This function will create example
+        /// </summary>
+        public void CreateExample()
+        {
+            consoleInput = "gets games wwwroot\\vgsales.csv";
+            InterpretConsole();
+            consoleInput = "colu create Na_Sales games Name NA_Sales";
+            InterpretConsole();
+            consoleInput = "colu create Eu_Sales games Name EU_Sales";
+            InterpretConsole();
+            consoleInput = "colu create Jp_Sales games Name JP_Sales";
+            InterpretConsole();
+            consoleInput = "colu create Other_Sales games Name Other_Sales";
+            InterpretConsole();
+            consoleInput = "colu create Global_Sales games Name Global_Sales";
+            InterpretConsole();
+            consoleInput = "mean Na_Sales";
+            InterpretConsole();
+            consoleInput = "mean Eu_Sales";
+            InterpretConsole();
+            consoleInput = "mean Jp_Sales";
+            InterpretConsole();
+            consoleInput = "mean Other_Sales";
+            InterpretConsole();
+        }
+        #endregion
+
         #region Console Output Functions
 
         /// <summary>
@@ -1317,9 +1427,9 @@ namespace ScriptingData.Pages
             o.Out = s;
             o.Normal = true;
             ConsoleOutput nco = new ConsoleOutput();
-            
+
             nco.Id = console_output_history.Count;
-            nco.OutputList.Insert(0,o);
+            nco.OutputList.Insert(0, o);
             console_output_history.Add(nco);
         }
 
@@ -1335,7 +1445,7 @@ namespace ScriptingData.Pages
             ConsoleOutput nco = new ConsoleOutput();
 
             nco.Id = console_output_history.Count;
-            nco.OutputList.Insert(0,o);
+            nco.OutputList.Insert(0, o);
             console_output_history.Add(nco);
         }
 
@@ -1351,7 +1461,7 @@ namespace ScriptingData.Pages
             ConsoleOutput nco = new ConsoleOutput();
 
             nco.Id = console_output_history.Count;
-            nco.OutputList.Insert(0,o);
+            nco.OutputList.Insert(0, o);
             console_output_history.Add(nco);
         }
 
@@ -1363,7 +1473,7 @@ namespace ScriptingData.Pages
         /// It will record it as table of strings
         /// </summary>
         /// <returns></returns>
-        public DataSet PopulateDataset()
+        public void PopulateDataset(string name)
         {
 
             FilePath = Path.GetFullPath(FilePath);
@@ -1431,7 +1541,21 @@ namespace ScriptingData.Pages
             List<LabelDataset> labels_data = new List<LabelDataset>();
             Labels data_label = new Labels();
 
-            for (int i = 0; i < 100; i++)
+            int max_iteration = 0;
+
+            if (temp_list.Count >= 100)
+            {
+                max_iteration = 100;
+            }
+            else
+            {
+                max_iteration = temp_list.Count;
+            }
+
+            //This variable checks if row 1 is set to be as counter in file / if not then create counting from 1 - n
+            bool is_rank = true;
+
+            for (int i = 0; i < max_iteration; i++)
             {
 
                 string line = temp_list[i];
@@ -1439,21 +1563,30 @@ namespace ScriptingData.Pages
                 DatasetRow row = new DatasetRow();
                 int index_counter = 0;
 
+
                 for (int j = 0; j < new_parameter.Parameters.Count; j++)
                 {
 
-                    if(i != 0)
-                    {
+                    if (i != 0)
+                    {//Add data points
                         index_counter++;
                         string double_check = entries[j].Replace('.', ',');
                         bool isDouble = IsDouble(double_check);
-                        if(isDouble == true)
+                        if (isDouble == true)
                         {
+                            double number = Convert.ToDouble(double_check);
+
                             DatasetRowObject r_obj = new DatasetRowObject();
                             r_obj.Id = index_counter;
-                            r_obj.DoubleData = Convert.ToDouble(double_check);
+                            r_obj.DoubleData = number;
                             r_obj.IsDouble = true;
                             row.Row.Add(r_obj);
+
+                            if (number != i && j == 0)
+                            {
+                                ConsoleInfo(i + "=" + number);
+                                is_rank = false;
+                            }
                         }
                         else
                         {
@@ -1462,13 +1595,18 @@ namespace ScriptingData.Pages
                             r_obj.IsString = true;
                             r_obj.StringData = entries[j];
                             row.Row.Add(r_obj);
+
+                            if (j == 0)
+                            {
+                                is_rank = false;
+                            }
                         }
-                        
+
 
                     }
                     else
-                    {
-                        if(temp_list.Count > 1)
+                    {//Create labels
+                        if (temp_list.Count > 1)
                         {
                             string line2 = temp_list[1];
                             string[] entry2 = line2.Split(',');
@@ -1494,18 +1632,52 @@ namespace ScriptingData.Pages
                             }
                         }
                     }
+                    new_dataset.ArrayRowLenght = j;
                 }
 
-                if(i != 0)
+                if (i != 0)
                 {
                     row.Id = i - 1;
                     new_dataset.Data.Add(row);
                 }
+
+                new_dataset.ArrayColumnLength = i;
             }
 
-            data_label.LableCllection = labels_data;
+            //Create counting from 1 to n if data has no counting
+            if (is_rank == false)
+            {
+                LabelDataset label = new LabelDataset();
+                label.Id = 0;
+                label.IsDouble = true;
+                label.Label = "Rank";
+                labels_data.Insert(0, label);
 
-            if(labels_datasets.Count > 0)
+                for (int i = 0; i < new_dataset.Data.Count; i++)
+                {
+                    DatasetRowObject r_obj = new DatasetRowObject();
+                    r_obj.DoubleData = i + 1;
+                    r_obj.IsDouble = true;
+                    r_obj.Id = i;
+                    new_dataset.Data[i].Row.Insert(0, r_obj);
+
+                    for (int j = 0; j < new_dataset.Data[i].Row.Count; j++)
+                    {
+                        //Change ID's for the labels
+                        if (i == 0)
+                        {
+                            labels_data[j].Id = j;
+                        }
+
+                        //Create ranks of data
+                        new_dataset.Data[i].Row[j].Id = j;
+                    }
+                }
+            }
+
+            data_label.LableCollection = labels_data;
+
+            if (labels_datasets.Count > 0)
             {
                 data_label.Id = labels_datasets.Count;
             }
@@ -1514,10 +1686,15 @@ namespace ScriptingData.Pages
                 data_label.Id = 0;
             }
 
-            labels_datasets.Add(data_label);
+            new_dataset.Id = Data_Sets_List.Count();
+            new_dataset.Name = name;
 
+            showcase_dataset = new_dataset;
+            Data_Sets_List.Add(new_dataset);
+            AddToFourDataSets(new_dataset);
+
+            labels_datasets.Add(data_label);
             parameters_list.Add(new_parameter);
-            return new_dataset;
         }
         #endregion
 
@@ -1539,12 +1716,12 @@ namespace ScriptingData.Pages
         /// <param name="row_id"></param>
         public void EditDatasetRowToggler(int row_id)
         {
-            if(edit_row_toggler == false)
+            if (edit_row_toggler == false)
             {
                 edit_row_toggler = true;
                 edit_row_class_string = "edit_row_box";
-                
-                for(int i = 1; i < showcase_dataset.Data[row_id].Row.Count; i++)
+
+                for (int i = 1; i < showcase_dataset.Data[row_id].Row.Count; i++)
                 {
                     EditingVariable es = new EditingVariable();
                     es.Id = i;
@@ -1553,16 +1730,16 @@ namespace ScriptingData.Pages
                     {
                         es.IsString = true;
                         es.StringValue = showcase_dataset.Data[row_id].Row[i].StringData;
-                        es.Label = labels_datasets[showcase_dataset.Id].LableCllection[i].Label;
+                        es.Label = labels_datasets[showcase_dataset.Id].LableCollection[i].Label;
                     }
 
                     if (showcase_dataset.Data[row_id].Row[i].IsDouble)
                     {
                         es.IsDouble = true;
                         es.DoubleValue = showcase_dataset.Data[row_id].Row[i].DoubleData;
-                        es.Label = labels_datasets[showcase_dataset.Id].LableCllection[i].Label;
+                        es.Label = labels_datasets[showcase_dataset.Id].LableCollection[i].Label;
                     }
-                    
+
                     edit_ID_Dataset = showcase_dataset.Id;
                     edit_ID_Dataset_Row = row_id;
 
@@ -1617,9 +1794,9 @@ namespace ScriptingData.Pages
             showcase_dataset.Data.RemoveAt(row_Id);
 
             //Reset ID's and labels
-            for(int i = 1; i < showcase_dataset.Data.Count; i++)
+            for (int i = 0; i < showcase_dataset.Data.Count; i++)
             {
-                showcase_dataset.Data[i].Row[0].StringData = i.ToString();
+                showcase_dataset.Data[i].Row[0].DoubleData = i + 1;
                 showcase_dataset.Data[i].Id = i;
             }
         }
@@ -1632,7 +1809,7 @@ namespace ScriptingData.Pages
         /// <param name="Id"></param>
         public void DeleteDataset(int Id)
         {
-            if(Data_Sets_List.Count > 0)
+            if (Data_Sets_List.Count > 0)
             {
                 ConsoleInfo($"{Data_Sets_List[Id].Name} has been removed.");
                 Data_Sets_List.RemoveAt(Id);
@@ -1663,6 +1840,110 @@ namespace ScriptingData.Pages
         }
         #endregion
 
+        #region ToggleDataset
+        protected List<DataSet> FourDataSets = new List<DataSet>();
+
+
+        /// <summary>
+        /// This function will add Id to the list of 4 data sets
+        /// </summary>
+        /// <param name="c"></param>
+        public void AddToFourDataSets(DataSet c)
+        {
+            if (FourDataSets.Count < 4)
+            {
+                FourDataSets.Add(c);
+            }
+        }
+
+
+        /// <summary>
+        ///This function will toggle between datasets
+        /// </summary>
+        public void ChangeDataset(DataSet c)
+        {
+            if (Data_Sets_List.Count != 0)
+            {
+                showcase_dataset = Data_Sets_List[c.Id];
+            }
+        }
+
+
+        /// <summary>
+        /// This function will load next 4 datasets
+        /// </summary>
+        public void LoadNextFourDataset()
+        {
+            if (Data_Sets_List.Count > FourDataSets.Count)
+            {
+                if (Data_Sets_List.Count > FourDataSets[FourDataSets.Count - 1].Id)
+                {
+                    if ((Data_Sets_List.Count - FourDataSets.Count) >= 4)
+                    {
+
+                        if ((Data_Sets_List.Count - FourDataSets[3].Id) >= 4)
+                        {
+                            int x = FourDataSets[3].Id;
+                            FourDataSets.Clear();
+
+                            for (int i = x + 1; i < (x + 4); i++)
+                            {
+                                DataSet c = new DataSet();
+                                c.Name = Data_Sets_List[i].Name;
+                                c.Id = Data_Sets_List[i].Id;
+                                FourDataSets.Add(c);
+                            }
+                        }
+                        else
+                        {
+                            int x = FourDataSets[3].Id;
+                            FourDataSets.Clear();
+
+                            for (int i = x + 1; i < Data_Sets_List.Count; i++)
+                            {
+                                DataSet c = new DataSet();
+                                c.Name = Data_Sets_List[i].Name;
+                                c.Id = Data_Sets_List[i].Id;
+                                FourDataSets.Add(c);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        int x = FourDataSets.Count;
+                        FourDataSets.Clear();
+                        for (int i = x; i < Data_Sets_List.Count; i++)
+                        {
+                            DataSet c = new DataSet();
+                            c.Name = Data_Sets_List[i].Name;
+                            c.Id = Data_Sets_List[i].Id;
+                            FourDataSets.Add(c);
+                        }
+                    }
+                }
+            }
+        }
+
+
+        /// <summary>
+        /// This function will load previous 4 data sets
+        /// </summary>
+        public void LoadPreviousFourDatasets()
+        {
+            int x = FourDataSets[0].Id;
+            FourDataSets.Clear();
+            for (int i = x - 4; i < x; i++)
+            {
+                DataSet c = new DataSet();
+                c.Name = Data_Sets_List[i].Name;
+                c.Id = Data_Sets_List[i].Id;
+                FourDataSets.Add(c);
+            }
+        }
+
+        #endregion
+
         #region Sort Dataset By Its Label
 
         protected DataSetSortChecker sortChecker = new DataSetSortChecker();
@@ -1674,9 +1955,9 @@ namespace ScriptingData.Pages
         /// <param name="column_label_Id"></param>
         public void SortShowcaseDataset(int column_label_Id, int dataset_connection_id)
         {
-            if (labels_datasets[dataset_connection_id].LableCllection[column_label_Id].IsDouble)
+            if (labels_datasets[dataset_connection_id].LableCollection[column_label_Id].IsDouble)
             {
-                if(sortChecker.LabelName != labels_datasets[dataset_connection_id].LableCllection[column_label_Id].Label)
+                if (sortChecker.LabelName != labels_datasets[dataset_connection_id].LableCollection[column_label_Id].Label)
                 {
                     for (int i = 0; i < showcase_dataset.Data.Count - 1; i++)
                     {
@@ -1694,9 +1975,10 @@ namespace ScriptingData.Pages
                     for (int i = 0; i < showcase_dataset.Data.Count; i++)
                     {
                         showcase_dataset.Data[i].Row[0].DoubleData = i + 1;
+                        showcase_dataset.Data[i].Id = i;
                     }
 
-                    sortChecker.LabelName = labels_datasets[dataset_connection_id].LableCllection[column_label_Id].Label;
+                    sortChecker.LabelName = labels_datasets[dataset_connection_id].LableCollection[column_label_Id].Label;
                 }
                 else
                 {
@@ -1718,6 +2000,7 @@ namespace ScriptingData.Pages
                     for (int i = 0; i < showcase_dataset.Data.Count; i++)
                     {
                         showcase_dataset.Data[i].Row[0].DoubleData = i + 1;
+                        showcase_dataset.Data[i].Id = i;
                     }
 
                     sortChecker.LabelName = "";
@@ -1725,7 +2008,7 @@ namespace ScriptingData.Pages
 
             }
 
-            if (labels_datasets[dataset_connection_id].LableCllection[column_label_Id].IsString)
+            if (labels_datasets[dataset_connection_id].LableCollection[column_label_Id].IsString)
             {
                 ConsoleInfo($"Is string. Column Id: {column_label_Id}  Dataset Id: {dataset_connection_id} {showcase_dataset.Data.Count}");
             }
@@ -1739,7 +2022,7 @@ namespace ScriptingData.Pages
         /// <param name="dataset_Id">Id of dataset from which to peek</param>
         public void ShowTopDataset(int dataset_Id)
         {
-            if(Data_Sets_List.Count > 0)
+            if (Data_Sets_List.Count > 0)
             {
                 for (int i = 0; i < 10; i++)
                 {
@@ -1755,6 +2038,59 @@ namespace ScriptingData.Pages
         }
         #endregion
 
+        #region Sum all data points of one type in data set
+
+        /// <summary>
+        /// This function will sum all data points from dataset of the same type
+        /// </summary>
+        public void SumAllDatasetOfType(int datasetId, string label)
+        {
+            if (Data_Sets_List.Count < datasetId)
+            {
+                ConsoleError("Dataset does not exist");
+            }
+            else if (Data_Sets_List[datasetId] == null)
+            {
+                ConsoleError("Dataset does not exist");
+            }
+            else
+            {
+                bool found_label = false;
+
+                for (int i = 0; i < labels_datasets[datasetId].LableCollection.Count; i++)
+                {
+                    if (labels_datasets[datasetId].LableCollection[i].Label == label)
+                    {
+                        found_label = true;
+                        double sum = 0;
+
+                        if (labels_datasets[datasetId].LableCollection[i].IsDouble == true)
+                        {
+                            for (int j = 0; j < Data_Sets_List[datasetId].Data.Count; j++)
+                            {
+                                sum += Data_Sets_List[datasetId].Data[i].Row[labels_datasets[datasetId].LableCollection[i].Id].DoubleData;
+                            }
+
+                            ConsoleInfo($"The sum of {labels_datasets[datasetId].LableCollection[i].Label} in dataset {Data_Sets_List[datasetId].Name} is {sum}");
+                        }
+                        else
+                        {
+                            ConsoleError("This label does not represends numeric value in dataset!");
+                        }
+
+                    }
+                }
+
+                if (found_label == false)
+                {
+                    ConsoleError("Could not find label");
+                }
+            }
+
+
+        }
+        #endregion
+
         #region Create Column Chart
 
         /// <summary>
@@ -1762,18 +2098,19 @@ namespace ScriptingData.Pages
         /// </summary>
         /// <param name="parameter">Parameter on which user want to create column graph</param>
         /// <param name="dataset_name">Name of dataset from which user wants to create coulumn graph</param>
-        public void CreateColumnGraph(string parameter, string parameter_names, int parameter_name_id , string dataset_name, string column_chart_name)
+        public void CreateColumnGraph(string parameter, string parameter_names, int parameter_name_id, string dataset_name, string column_chart_name)
         {
             int param_Id = 0;
             int dataset_Id = 0;
+
 
             bool param_found = false;
             bool dataset_found = false;
 
             //Check for dataset
-            for(int i = 0; i < Data_Sets_List.Count; i++)
+            for (int i = 0; i < Data_Sets_List.Count; i++)
             {
-                if(Data_Sets_List[i].Name == dataset_name)
+                if (Data_Sets_List[i].Name == dataset_name)
                 {
                     dataset_Id = i;
                     //If dataset found
@@ -1783,7 +2120,7 @@ namespace ScriptingData.Pages
 
 
             //Check for the right parameter
-            if(dataset_found == true)
+            if (dataset_found == true)
             {
                 for (int i = 0; i < parameters_list[dataset_Id].Parameters.Count; i++)
                 {
@@ -1799,7 +2136,7 @@ namespace ScriptingData.Pages
 
 
             //If it found the dataset and parameter
-            if(dataset_found == true && param_found == true)
+            if (dataset_found == true && param_found == true)
             {
                 bool error = false;
                 ColumnGraph new_coulumn = new ColumnGraph();
@@ -1892,12 +2229,12 @@ namespace ScriptingData.Pages
         /// </summary>
         public void ToggleDataChart()
         {
-            if(data_dable_chart_toggler == false)
+            if (data_dable_chart_toggler == false)
             {
                 data_dable_chart_toggler = true;
                 toggle_class_chart_data = "chart_data_box";
 
-                if(column_graphs.Count > 0)
+                if (column_graphs.Count > 0)
                 {
                     display_data_object = column_graphs[current_column_chart.Id];
                 }
@@ -1945,7 +2282,7 @@ namespace ScriptingData.Pages
                     ResetFourColumnChart();
                 }
 
-                if(is_done == true)
+                if (is_done == true)
                 {
                     //Reset view for the first one from the list
                     CreateGraphJS(column_graphs[0]);
@@ -1963,19 +2300,19 @@ namespace ScriptingData.Pages
         /// <param name="chart_Id">Id of chart from which to remove</param>
         public void RemoveFromColumnChartByIndex(int idx, int chart_Id)
         {
-            if(column_graphs[chart_Id] != null)
+            if (column_graphs[chart_Id] != null)
             {
                 column_graphs[chart_Id].Columns.RemoveAt(idx);
 
                 //If this chart is open reset view
-                if(current_column_chart.Id == chart_Id)
+                if (current_column_chart.Id == chart_Id)
                 {
                     string chart_name = column_graphs[chart_Id].Name;
 
                     ConsoleInfo($"Variable on index {idx} has been removed from chart {chart_name}");
 
                     //Reset ID's
-                    for(int i = 0; i < column_graphs[chart_Id].Columns.Count; i++)
+                    for (int i = 0; i < column_graphs[chart_Id].Columns.Count; i++)
                     {
                         column_graphs[chart_Id].Columns[i].Id = i;
                     }
@@ -1993,9 +2330,9 @@ namespace ScriptingData.Pages
         /// <param name="chart_Id">Id of chart from which to remove</param>
         public void RemoveFromColumnChartByRange(int begin_range, int end_range, int chart_Id)
         {
-            if(column_graphs[chart_Id] != null)
+            if (column_graphs[chart_Id] != null)
             {
-                if(column_graphs[chart_Id].Columns.Count < begin_range)
+                if (column_graphs[chart_Id].Columns.Count < begin_range)
                 {
                     ConsoleInHistory(consoleInput);
                     ConsoleError($"Begin index ({begin_range}) is out of range!");
@@ -2003,7 +2340,7 @@ namespace ScriptingData.Pages
                 }
                 else
                 {
-                    if(column_graphs[chart_Id].Columns.Count < end_range)
+                    if (column_graphs[chart_Id].Columns.Count < end_range)
                     {
                         ConsoleInHistory(consoleInput);
                         ConsoleError($"End index ({end_range}) is out of range!");
@@ -2011,7 +2348,7 @@ namespace ScriptingData.Pages
                     }
                     else
                     {
-                        if(begin_range == end_range)
+                        if (begin_range == end_range)
                         {
                             ConsoleInHistory(consoleInput);
                             ConsoleError($"Begin index ({begin_range}) is equal to end range ({end_range})!");
@@ -2019,7 +2356,7 @@ namespace ScriptingData.Pages
                         }
                         else
                         {
-                            if(begin_range > end_range)
+                            if (begin_range > end_range)
                             {
                                 ConsoleInHistory(consoleInput);
                                 ConsoleError($"Begin index ({begin_range}) cannot be bigger than end range ({end_range})!");
@@ -2059,13 +2396,13 @@ namespace ScriptingData.Pages
         /// <param name="chart_Id">Id of chart from which to remove</param>
         public void RemoveFromColumnChartWhere(double variable, int chart_Id)
         {
-            if(column_graphs[chart_Id] != null)
+            if (column_graphs[chart_Id] != null)
             {
                 int counter = 0;
 
-                for(int i = 0; i < column_graphs[chart_Id].Columns.Count; i++)
+                for (int i = 0; i < column_graphs[chart_Id].Columns.Count; i++)
                 {
-                    if(column_graphs[chart_Id].Columns[i].DataPoint == variable)
+                    if (column_graphs[chart_Id].Columns[i].DataPoint == variable)
                     {
                         column_graphs[chart_Id].Columns.RemoveAt(i);
                         counter++;
@@ -2083,7 +2420,7 @@ namespace ScriptingData.Pages
                 ConsoleInfo($"{counter} has been removed from {chart_name}");
 
                 //If this column chart is open
-                if(current_column_chart.Id == chart_Id)
+                if (current_column_chart.Id == chart_Id)
                 {
                     CreateGraphJS(column_graphs[chart_Id]);
                 }
@@ -2173,7 +2510,7 @@ namespace ScriptingData.Pages
         /// </summary>
         public void ToggleEditColumnObject(int column_Id, int chart_Id)
         {
-            if(edit_coulumn_toggler == false)
+            if (edit_coulumn_toggler == false)
             {
                 edit_coulumn_toggler = true;
                 edit_column_class_string = "edit_column_box";
@@ -2195,7 +2532,7 @@ namespace ScriptingData.Pages
         public void EditColumnObject()
         {
             bool error = false;
-            if(edit_column.Name == "" || edit_column.Name == null)
+            if (edit_column.Name == "" || edit_column.Name == null)
             {
                 error_name_edit = "You need to enter anything for the name";
                 error = true;
@@ -2205,20 +2542,20 @@ namespace ScriptingData.Pages
 
             bool isDouble = IsDouble(dbl);
 
-            if(isDouble == false)
+            if (isDouble == false)
             {
                 error_data_point_edit = "Data point is not written as correct double!";
                 error = true;
             }
 
-            if(error == false)
+            if (error == false)
             {
                 column_graphs[chart_edit_id].Columns[edit_column.Id] = edit_column;
                 CreateGraphJS(column_graphs[chart_edit_id]);
                 ToggleEditColumnObject(0, 0);
             }
         }
-        
+
         #endregion
 
         #region Functions for Toggleing Column Charts
@@ -2234,7 +2571,7 @@ namespace ScriptingData.Pages
         /// <param name="c"></param>
         public void AddToFourColumnCharts(ColumnChartFinder c)
         {
-            if(FourColumnCharts.Count < 4)
+            if (FourColumnCharts.Count < 4)
             {
                 FourColumnCharts.Add(c);
             }
@@ -2254,14 +2591,14 @@ namespace ScriptingData.Pages
         /// </summary>
         public void LoadNextFourColumn()
         {
-            if(column_graphs.Count > FourColumnCharts.Count)
+            if (column_graphs.Count > FourColumnCharts.Count)
             {
-                if(column_graphs.Count > FourColumnCharts[FourColumnCharts.Count - 1].Id)
+                if (column_graphs.Count > FourColumnCharts[FourColumnCharts.Count - 1].Id)
                 {
-                    if((column_graphs.Count - FourColumnCharts.Count) >= 4)
+                    if ((column_graphs.Count - FourColumnCharts.Count) >= 4)
                     {
 
-                        if((column_graphs.Count - FourColumnCharts[3].Id) >= 4)
+                        if ((column_graphs.Count - FourColumnCharts[3].Id) >= 4)
                         {
                             int x = FourColumnCharts[3].Id;
                             FourColumnCharts.Clear();
@@ -2287,7 +2624,7 @@ namespace ScriptingData.Pages
                                 FourColumnCharts.Add(c);
                             }
                         }
-                        
+
                     }
                     else
                     {
@@ -2308,14 +2645,14 @@ namespace ScriptingData.Pages
         /// <summary>
         /// This function will reset four column chart list
         /// </summary>
-        public void ResetFourColumnChart() 
-        { 
-            if(column_graphs.Count > 0)
+        public void ResetFourColumnChart()
+        {
+            if (column_graphs.Count > 0)
             {
-                if(column_graphs.Count > 4)
+                if (column_graphs.Count > 4)
                 {
                     FourColumnCharts.Clear();
-                    for(int i = 0; i < 4; i++)
+                    for (int i = 0; i < 4; i++)
                     {
                         ColumnChartFinder c = new ColumnChartFinder();
                         c.Id = i;
@@ -2393,7 +2730,7 @@ namespace ScriptingData.Pages
             }
         }
         #endregion
-        
+
         #region Column Chart Sorting Functions
 
         /// <summary>
@@ -2402,11 +2739,11 @@ namespace ScriptingData.Pages
         /// <param name="name">Name of chart to sort</param>
         public void SortColumnMinMax(string name)
         {
-            if(column_graphs.Count > 0)
+            if (column_graphs.Count > 0)
             {
-                for(int i = 0; i < column_graphs.Count; i++)
+                for (int i = 0; i < column_graphs.Count; i++)
                 {
-                    if(name == column_graphs[i].Name)
+                    if (name == column_graphs[i].Name)
                     {
                         column_graphs[i].Columns.Sort((x, y) => x.DataPoint.CompareTo(y.DataPoint));
                         //If this column chart is alredy open then change it as well in browser
@@ -2451,17 +2788,17 @@ namespace ScriptingData.Pages
         /// <param name="chart_ID">ID of chart</param>
         public void CalcMedianColumnChart(int chart_ID)
         {
-            if(column_graphs.Count > 0)
+            if (column_graphs.Count > 0)
             {
                 List<double> variables = new List<double>();
-                for(int i = 0; i < column_graphs[chart_ID].Columns.Count; i++)
+                for (int i = 0; i < column_graphs[chart_ID].Columns.Count; i++)
                 {
                     variables.Add(column_graphs[chart_ID].Columns[i].DataPoint);
                 }
 
                 string chart_name = column_graphs[chart_ID].Name;
 
-                if(variables.Count > 0)
+                if (variables.Count > 0)
                 {
                     //To find median data needs to be sorted
                     variables = variables.OrderBy(d => d).ToList();
@@ -2470,11 +2807,11 @@ namespace ScriptingData.Pages
                     bool isOdd = IsOdd(variables.Count);
 
                     //If number of variables is odd
-                    if(isOdd == true)
+                    if (isOdd == true)
                     {
                         int index = variables.Count / 2;
                         double median = variables[index];
-                        
+
                         ConsoleInfo($"Median for column chart: {chart_name} is: {median}");
                     }
                     else//If number of variables is even then median is mean of 2 middle items
@@ -2498,7 +2835,7 @@ namespace ScriptingData.Pages
         /// <param name="chart_ID">ID of chart</param>
         public void CalcMeanColumnChart(int chart_ID)
         {
-            if(column_graphs.Count > 0)
+            if (column_graphs.Count > 0)
             {
                 double sum = 0;
                 for (int i = 0; i < column_graphs[chart_ID].Columns.Count; i++)
@@ -2531,7 +2868,7 @@ namespace ScriptingData.Pages
 
                 List<DataCollective> dataCollectives = new List<DataCollective>();
 
-                for(int i = 0; i < calculating_chart.Columns.Count; i++)
+                for (int i = 0; i < calculating_chart.Columns.Count; i++)
                 {
                     DataCollective dc = new DataCollective();
 
@@ -2540,9 +2877,9 @@ namespace ScriptingData.Pages
                     dc.Name = calculating_chart.Columns[i].Name;
                     dc.Occurence = 0;
 
-                    for(int j = i + 1; j < calculating_chart.Columns.Count; j++)
+                    for (int j = i + 1; j < calculating_chart.Columns.Count; j++)
                     {
-                        if(dc.Data == calculating_chart.Columns[j].DataPoint)
+                        if (dc.Data == calculating_chart.Columns[j].DataPoint)
                         {
                             calculating_chart.Columns.RemoveAt(j);
                             dc.Occurence++;
@@ -2557,9 +2894,9 @@ namespace ScriptingData.Pages
                 DataCollective max_dc = new DataCollective();
                 max_dc.Occurence = 0;
 
-                for(int i = 0; i < dataCollectives.Count; i++)
+                for (int i = 0; i < dataCollectives.Count; i++)
                 {
-                    if(max_dc.Occurence < dataCollectives[i].Occurence)
+                    if (max_dc.Occurence < dataCollectives[i].Occurence)
                     {
                         max_dc = dataCollectives[i];
                     }
@@ -2569,12 +2906,12 @@ namespace ScriptingData.Pages
                     }
                 }
 
-                if(max_dc.Occurence == equal_dc.Occurence)
+                if (max_dc.Occurence == equal_dc.Occurence)
                 {
                     ConsoleInfo("There is no mode for this chart");
                 }
 
-                if(max_dc.Occurence > equal_dc.Occurence)
+                if (max_dc.Occurence > equal_dc.Occurence)
                 {
                     ConsoleInfo($"Mode is: {max_dc.Occurence} for data point {max_dc.Data}");
                 }
@@ -2652,6 +2989,49 @@ namespace ScriptingData.Pages
         }
         #endregion
 
+        #region Menu Toggler
+        protected string menu_toggle_class = "menu_box_none";
+        protected bool menu_toggler = false;
+
+        /// <summary>
+        /// This function will toggle menu screen
+        /// </summary>
+        public void ToggleMenu()
+        {
+            if (menu_toggler == false)
+            {
+                menu_toggler = true;
+                menu_toggle_class = "menu_box";
+            }
+            else
+            {
+                menu_toggler = false;
+                menu_toggle_class = "menu_box_none";
+            }
+        }
+
+        #endregion
+
+        #region All Commands Toggler
+        protected string commands_toggle_class = "commands_box_none";
+        protected bool commands_toggler = false;
+
+
+        public void ToggleCommandsList()
+        {
+            if (commands_toggler == false)
+            {
+                commands_toggle_class = "commands_box";
+                commands_toggler = true;
+            }
+            else
+            {
+                commands_toggle_class = "commands_box_none";
+                commands_toggler = false;
+            }
+        }
+        #endregion
+
         #region Help Functions
         /// <summary>
         /// This function will check if string == double
@@ -2701,7 +3081,6 @@ namespace ScriptingData.Pages
             return value % 2 != 0;
         }
         #endregion
-
 
 
     }

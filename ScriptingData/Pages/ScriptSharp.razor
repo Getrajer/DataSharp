@@ -1,0 +1,341 @@
+﻿@page "/"
+@inherits ScriptSharpBase
+@using System.Text
+@using System.Net
+@using System.IO
+@inject HttpClient http;
+@inject IJSRuntime JSRuntime;
+
+
+<head>
+    <link href="../css/script_sharp_style.css" rel="stylesheet" />
+</head>
+
+<section class="page">
+    <div class="page_container">
+
+        <section class="console_output">
+            <div class="console_output_container">
+                <div class="output_screen">
+                    @foreach (var co in console_output_history)
+                    {
+                        <div class="output">
+
+                            <div class="label">
+                                @co.Id
+                            </div>
+                            <div class="contnet">
+                                @foreach (var o in co.OutputList)
+                                {
+
+                                    @if (o.IfInfo == true)
+                                    {
+                                        <p class="info">@o.Out</p>
+                                    }
+
+                                    if (o.IfError == true)
+                                    {
+                                        <p class="error">@o.Out</p>
+                                    }
+
+                                    if (o.Normal == true)
+                                    {
+                                        <p>@o.Out</p>
+                                    }
+                                }
+                            </div>
+
+                        </div>
+                    }
+                </div>
+            </div>
+        </section>
+
+        <section class="console">
+            <div class="console_container">
+                <div class="title_container">
+                    <h2>Console</h2>
+                </div>
+            </div>
+
+            <div class="intput_console_container">
+                <textarea @bind="consoleInput"></textarea>
+            </div>
+
+            <div class="button_container">
+                <span class="error">@error_console</span>
+                <button @onclick="InterpretConsole">Execute</button>
+            </div>
+        </section>
+
+        <section class="graph">
+            <div class="graph_container">
+                <div class="title_container">
+                    <div class="h_container"><h2>Graphs</h2></div>
+                    <div class="btn_container"><button class="menu_btn">Menu</button></div>
+                </div>
+                <div class="scroll_graphs">
+                    @if (FourColumnCharts.Count > 0)
+                    {
+                        @if (FourColumnCharts[0].Id != 0)
+                        {
+                            <div class="scroll">
+                                <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                            </div>
+                        }
+                    }
+
+                    @foreach (var f in FourColumnCharts)
+                    {
+                        <div class="scroll">
+                            <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
+                        </div>
+                    }
+
+
+                    @if (FourColumnCharts.Count > 3)
+                    {
+                        @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                        {
+                            <div class="scroll">
+                                <button @onclick="LoadNextFourColumn">---&gt;</button>
+                            </div>
+                        }
+                    }
+
+
+                </div>
+                <div class="chart_container">
+                    <div id="chartdiv"></div>
+                </div>
+                @if (column_graphs.Count > 0)
+                {
+                    <div class="enlarge_btn_container">
+                        <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
+                    </div>
+
+                    <div class="data_btn_container">
+                        <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
+                    </div>
+                }
+            </div>
+        </section>
+
+
+
+
+        <section class="data">
+            <div class="data_container">
+                <div class="title_container">
+                    <div class="h_container"><h2>Data</h2></div>
+                    <div class="btn_container"><button class="menu_btn">Menu</button></div>
+                </div>
+                <div class="table_container">
+                    <table style="width:100%">
+                        @foreach(var l in labels_datasets)
+                        {
+                            if(l.Id == showcase_dataset.Id)
+                            {
+                                <tr>
+                                    @foreach(var lab in l.LableCllection)
+                                    {
+                                        @if (lab.IsDouble == true)
+                                        {
+                                            <td class="sort_button" @onclick="@(e => SortShowcaseDataset(lab.Id, l.Id))">@lab.Label</td>
+                                        }
+                                        
+                                        @if(lab.IsString == true)
+                                        {
+                                            <td class="head_td">@lab.Label</td>
+                                        }
+                                    }
+                                </tr>
+                            }
+                        }
+
+                        @foreach (var rc in showcase_dataset.Data)
+                        {
+                            <tr>
+
+                                @foreach (var v in rc.Row)
+                                {
+                                    if(v.Id != 1)
+                                    {
+                                        if (v.IsDouble == true)
+                                        {
+                                            <td><input @bind="v.DoubleData" /></td>
+                                        }
+                                    
+                                        if(v.IsString == true)
+                                        {
+                                            <td><input @bind="v.StringData" /></td>
+                                        }
+                                    }
+                                    else
+                                    {
+                                        if (v.IsDouble == true)
+                                        {
+                                            <td>@v.DoubleData</td>
+                                        }
+                                    
+                                        if(v.IsString == true)
+                                        {
+                                            <td>@v.StringData</td>
+                                        }
+                                    }
+
+
+                                }
+
+                                
+                                <td><button @onclick="@(e => EditDatasetRowToggler(rc.Id))">Edit</button></td>
+                                <td><button @onclick="@(e => DeleteRowDataset(rc.Id))">Del</button></td>
+                                
+                            </tr>
+                        }
+                    </table>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+
+
+
+</section>
+
+<!--This box will hold column chart when enlarged-->
+<div class="@lg_toggle_class">
+    <section class="chart_lg">
+        <div class="chart_lg_container">
+            <div class="lg_chart_bac">
+                <div id="largeChartdiv"></div>
+            </div>
+        </div>
+    </section>
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleLgColumnChart">X</button>
+    </div>
+</div>
+<!----------------------------------------------->
+<!--This box will show data of the chart-->
+<div class="@toggle_class_chart_data">
+    <section class="data_chart">
+        <div class="data_chart_container">
+            <div class="data_background">
+                @if (display_data_object != null)
+                {
+                    <div class="title_container">
+                        <h1>@display_data_object.Name data</h1>
+                    </div>
+                    <div class="table_container">
+                        <table>
+                            @foreach (var o in display_data_object.Columns)
+                            {
+                                <tr>
+                                    <td>@o.Name</td>
+                                    <td>@o.DataPoint</td>
+                                    <td><button @onclick="@(e => ToggleEditColumnObject(o.Id, display_data_object.Id))">Edit</button></td>
+                                    <td><button @onclick="@(e => RemoveFromColumnChartByIndex(o.Id, display_data_object.Id))">Del</button></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </section>
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleDataChart">X</button>
+    </div>
+</div>
+<!---------------------------------------->
+<!--Window for editing row-->
+<div class="@edit_row_class_string">
+    <section class="edit_column_row">
+        <div class="edit_column_row_container">
+            <div class="data_background">
+                <div class="title_container">
+                    <h1>Edit Row</h1>
+                </div>
+                <div class="edit_box">
+                    @foreach (var e in data_set_row_edit)
+                    {
+                        @if (e.IsDouble == true)
+                        {
+                            <div class="input-group_container">
+                                <label>@e.Label</label>
+                                <input @bind="e.DoubleValue" />
+                            </div>
+                        }
+
+                        @if (e.IsString == true)
+                        {
+                            <div class="input-group_container">
+                                <label>@e.Label</label>
+                                <input @bind="e.StringValue" />
+                            </div>
+                        }
+                    }
+                    <div class="button_container">
+                        <button @onclick="@(e => EditDatasetRowToggler(0))">Cancel</button>
+                        <br />
+                        <br />
+                        <button @onclick="EditDatasetRow">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-------------------------->
+<!--Window for editing column object-->
+<div class="@edit_column_class_string">
+    <section class="edit_column">
+        <div class="edit_column_container">
+            <div class="data_background">
+                <div class="title_container">
+                    <h1>Edit Row</h1>
+                </div>
+                <div class="edit_box">
+
+                    <div class="input-group_container">
+                        <label>Name</label>
+                        <input @bind="@edit_column.Name" />
+                    </div>
+
+                    <div class="input-group_container">
+                        <label>Data point value</label>
+                        <input @bind="@edit_column.DataPoint" />
+                    </div>
+
+                    <div class="button_container">
+                        <button  @onclick="@(e => ToggleEditColumnObject(0, 0))">Cancel</button>
+                        <br />
+                        <br />
+                        <button @onclick="EditColumnObject">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-------------------------->
+
+@code{
+
+    //FilePath = Path.GetFullPath(@"C:\Users\Mateusz\Desktop\ScriptingData\ScriptingData\wwwroot\vgsales.csv");
+
+    string testing = "";
+
+    private async Task GetData()
+    {
+        var json = new WebClient().DownloadString("https://jsonplaceholder.typicode.com/posts");
+        testing = json.ToString();
+
+    }
+
+
+}

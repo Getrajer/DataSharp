@@ -63,7 +63,9 @@
 
             <div class="button_container">
                 <span class="error">@error_console</span>
-                <button @onclick="InterpretConsole">Execute</button>
+                <div class="button_box">
+                    <button @onclick="InterpretConsole">Execute</button>
+                </div>
             </div>
         </section>
 
@@ -71,52 +73,160 @@
             <div class="graph_container">
                 <div class="title_container">
                     <div class="h_container"><h2>Charts</h2></div>
-                    <div class="btn_container"><button @onclick="ToggleMenu" class="menu_btn">Menu</button></div>
+                    <div class="btn_container"><button @onclick="OpenColumnCharts" class="menu_btn">Column Charts</button> <button @onclick="OpenLineCharts" class="menu_btn">Line Charts</button><button @onclick="OpenPieCharts"  class="menu_btn">Pie Charts</button> </div>
                 </div>
-                <div class="scroll_graphs">
-                    @if (FourColumnCharts.Count > 0)
-                    {
-                        @if (FourColumnCharts[0].Id != 0)
+
+                <!--Column Charts Section-->
+                @if (show_column_charts == true)
+                {
+                    <div class="scroll_graphs">
+                        @if (FourColumnCharts.Count > 0)
+                        {
+                            @if (FourColumnCharts[0].Id != 0)
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                                </div>
+                            }
+                        }
+
+                        @foreach (var f in FourColumnCharts)
                         {
                             <div class="scroll">
-                                <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                                <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
                             </div>
                         }
-                    }
 
-                    @foreach (var f in FourColumnCharts)
+
+                        @if (FourColumnCharts.Count > 3)
+                        {
+                            @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadNextFourColumn">---&gt;</button>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="chart_container">
+                        <div id="chartdiv"></div>
+
+                    </div>
+                    @if (column_graphs.Count > 0)
                     {
-                        <div class="scroll">
-                            <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
+                        <div class="enlarge_btn_container">
+                            <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <div class="data_btn_container">
+                            <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
                         </div>
                     }
+                }
+                <!--End of Column Charts Section-->
+                <!--Pie Charts Section-->
+                @if (show_pie_charts == true)
+                {
+                    <div class="scroll_graphs">
+                        @if (FourColumnCharts.Count > 0)
+                        {
+                            @if (FourColumnCharts[0].Id != 0)
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                                </div>
+                            }
+                        }
 
-
-                    @if (FourColumnCharts.Count > 3)
-                    {
-                        @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                        @foreach (var f in FourColumnCharts)
                         {
                             <div class="scroll">
-                                <button @onclick="LoadNextFourColumn">---&gt;</button>
+                                <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
                             </div>
                         }
+
+
+                        @if (FourColumnCharts.Count > 3)
+                        {
+                            @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadNextFourColumn">---&gt;</button>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="chart_container">
+                        <div id="chartdiv_pie"></div>
+                    </div>
+                    @if (column_graphs.Count > 0)
+                    {
+                        <div class="enlarge_btn_container">
+                            <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <div class="data_btn_container">
+                            <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
+                        </div>
                     }
-
-
-                </div>
-                <div class="chart_container">
-                    <div id="chartdiv"></div>
-                </div>
-                @if (column_graphs.Count > 0)
-                {
-                    <div class="enlarge_btn_container">
-                        <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
-                    </div>
-
-                    <div class="data_btn_container">
-                        <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
-                    </div>
                 }
+                <!--End of Pie Charts Section-->
+                <!--Line Charts Section-->
+                @if (show_line_charts == true)
+                {
+                    <div class="scroll_graphs">
+                        @if (FourColumnCharts.Count > 0)
+                        {
+                            @if (FourColumnCharts[0].Id != 0)
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                                </div>
+                            }
+                        }
+
+                        @foreach (var f in FourColumnCharts)
+                        {
+                            <div class="scroll">
+                                <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
+                            </div>
+                        }
+
+
+                        @if (FourColumnCharts.Count > 3)
+                        {
+                            @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                            {
+                                <div class="scroll">
+                                    <button @onclick="LoadNextFourColumn">---&gt;</button>
+                                </div>
+                            }
+                        }
+
+
+                    </div>
+                    <div class="chart_container">
+                        <div id="chartdiv_line"></div>
+
+                    </div>
+                    @if (column_graphs.Count > 0)
+                    {
+                        <div class="enlarge_btn_container">
+                            <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
+                        </div>
+
+                        <div class="data_btn_container">
+                            <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
+                        </div>
+                    }
+                }
+                <!--End of Line Charts Section-->
+
+
             </div>
         </section>
 
@@ -127,7 +237,7 @@
             <div class="data_container">
                 <div class="title_container">
                     <div class="h_container"><h2>Data</h2></div>
-                    <div class="btn_container"><button @onclick="ToggleCommandsList" class="menu_btn">See all commands</button></div>
+                    <div class="btn_container"><button @onclick="ToggleMenu" class="menu_btn">Menu</button> <button @onclick="ToggleCommandsList" class="menu_btn">See all commands</button></div>
                 </div>
 
                 <div class="scroll_graphs">
@@ -234,9 +344,6 @@
         </section>
 
     </div>
-
-
-
 
 </section>
 
@@ -457,17 +564,173 @@
 <div class="@menu_toggle_class">
     <section class="menu">
         <div class="menu_container">
-            <div class="menu_background">
-                <div class="title_container">
-                    <h1>Menu comes in update set on 22.06.2020/As well with Json request data fetching/More function for getting information from data</h1>
-                </div>
 
+            <!--Create charts-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Create chart</h4>
+
+                    <div class="buttons_container">
+                        <div class="button_box">
+                            <button>Line Chart</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Column Chart</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Pie Chart</button>
+                        </div>
+
+                    </div>
+                </div>
             </div>
+
+            <!--Delete charts-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Delete charts</h4>
+
+                    <div class="buttons_container">
+                        <div class="button_box">
+                            <button>Line Charts</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Column Charts</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Pie Charts</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Add dataset from csv-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Add Dataset from csv,txt,data file</h4>
+
+                    <div class="input_section">
+                        <div class="input_container">
+                            <label>Path</label>
+                            <input />
+                        </div>
+
+                        <div class="input_container">
+                            <label>Name dataset</label>
+                            <input />
+                        </div>
+
+                        <div class="button_box">
+                            <button>Add Dataset</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <!--Add dataset from JSON-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Add Dataset from JSON request</h4>
+
+                    <div class="input_section">
+                        <div class="input_container">
+                            <label>Path</label>
+                            <input />
+                        </div>
+
+                        <div class="input_container">
+                            <label>Name dataset</label>
+                            <input />
+                        </div>
+
+                        <div class="button_box">
+                            <button>Add Dataset</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+
+            <!--Dataset options-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Dataset Options</h4>
+
+                    <div class="buttons_container">
+                        <div class="button_box">
+                            <button>Delete datasets</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Column Charts</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Pie Charts</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!--Other functions-->
+            <div class="options_container">
+                <div class="create_chart_container">
+                    <h4>Other Functions</h4>
+
+                    <div class="buttons_container">
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                        <div class="button_box">
+                            <button>Function</button>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
         </div>
     </section>
 
     <div class="enlarge_btn_container">
-        <button @onclick="ToggleMenu">X</button>
+        <button @onclick="ToggleMenu">Close menu</button>
     </div>
 </div>
 

@@ -16,6 +16,8 @@ namespace ScriptingData.Pages
         [Inject]
         IJSRuntime JSRuntime { get; set; }
 
+        #region Column Chart Models
+
         /// <summary>
         /// Single column in the column chart
         /// </summary>
@@ -64,6 +66,63 @@ namespace ScriptingData.Pages
             public ColumnChartFinder() { }
         }
 
+        #endregion
+
+        #region Pie chart models
+
+        /// <summary>
+        /// Single column in the column chart
+        /// </summary>
+        public class PiePart
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public double DataPoint { get; set; }
+
+            public PiePart() { }
+        }
+
+        /// <summary>
+        /// This class will work as a blueprint for coulumn graphs
+        /// </summary>
+        public class PieChart
+        {
+            public int Id { get; set; }
+
+            /// <summary>
+            /// Name of this chart
+            /// </summary>
+            public string Name { get; set; }
+
+            /// <summary>
+            /// Name of dataset from which this column chart data is comming from
+            /// </summary>
+            public string DataSetName { get; set; }
+
+            /// <summary>
+            /// Name of data label which is connected to the data set it is comming from
+            /// </summary>
+            public string DataVariableName { get; set; }
+
+            public List<PiePart> PieParts = new List<PiePart>();
+            public PieChart() { }
+        }
+
+        /// <summary>
+        /// This class will be used for toggleing between charts
+        /// </summary>
+        public class PieChartFinder
+        {
+            public int Id { get; set; }
+            public string Name { get; set; }
+            public PieChartFinder() { }
+        }
+
+        #endregion
+
+
+        #region Dataset Models
+
         /// <summary>
         /// This class will store parameters for dataset
         /// Parameter Id = Dataset Id
@@ -72,6 +131,7 @@ namespace ScriptingData.Pages
         {
             public int Id { get; set; }
             public List<string> Parameters = new List<string>();
+
             public Parameter()
             {
 
@@ -173,6 +233,8 @@ namespace ScriptingData.Pages
             }
         }
 
+        #endregion
+
         /// <summary>
         /// This class is blueprrint for output console
         /// </summary>
@@ -247,6 +309,11 @@ namespace ScriptingData.Pages
         /// This list will store column graphs
         /// </summary>
         protected List<ColumnGraph> column_graphs = new List<ColumnGraph>();
+
+        /// <summary>
+        /// This list will store pie charts
+        /// </summary>
+        protected List<PieChart> pie_charts = new List<PieChart>();
 
         /// <summary>
         /// This list will store labels for datasets
@@ -514,6 +581,161 @@ namespace ScriptingData.Pages
                                     c.Id = column_graphs.Count - 1;
                                     c.Name = column_chart_name;
                                     current_column_chart = c;
+
+                                    consoleInput = "";
+                                    break;
+                                }
+                                else
+                                {
+                                    ConsoleInHistory(consoleInput);
+                                    ConsoleError("Wrong Syntax");
+                                    consoleInput = "";
+                                    break;
+                                }
+                            }
+
+                        case "pie_":
+                            {
+                                string[] console_in_breakdown = consoleInput.Split(" ");
+
+                                int dataset_id = 0;
+
+                                string dataset_name = "";
+                                string parameter_name = "";
+                                string parameter_value = "";
+                                string chart_name = "";
+
+                                int parameters_name_id = 0;
+                                int parameter_id = 0;
+
+                                bool parameter_name_found = false;
+                                bool dataset_found = false;
+                                bool parameter_value_found = false;
+
+                                if (console_in_breakdown.Length == 6)
+                                {
+                                    //Check for name of dataset
+                                    if (console_in_breakdown[2] == "")
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Wrong name");
+                                        consoleInput = "";
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        chart_name = console_in_breakdown[2];
+                                    }
+
+                                    //Check for the dataset name
+                                    if (console_in_breakdown[3] == "")
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Wrong dataset name");
+                                        consoleInput = "";
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < Data_Sets_List.Count; i++)
+                                        {
+                                            if (Data_Sets_List[i].Name == console_in_breakdown[3])
+                                            {
+                                                dataset_name = console_in_breakdown[3];
+                                                dataset_id = i;
+                                                dataset_found = true;
+                                                dataset_name = console_in_breakdown[3];
+                                            }
+                                        }
+                                    }
+
+                                    if (dataset_found == false)
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Not found dataset");
+                                        consoleInput = "";
+                                        break;
+                                    }
+
+                                    //Check for the name of description for the columns
+                                    if (console_in_breakdown[4] == "")
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Wrong name for data description for columns");
+                                        ConsoleError("If you do not have valid name just write(#numeric): colu create |name| |dataset name| #numeric |vlaue parameter| /and it will name columns from 0 to n");
+                                        consoleInput = "";
+                                        break;
+                                    }
+
+                                    //If "#numeric" count columns from 0 - n
+                                    if (console_in_breakdown[4] == "#numeric")
+                                    {
+                                        parameter_name = console_in_breakdown[4];
+                                        parameter_name_found = true;
+                                    }//Or look for the list of names
+                                    else
+                                    {
+                                        for (int i = 0; i < parameters_list[dataset_id].Parameters.Count; i++)
+                                        {
+                                            if (parameters_list[dataset_id].Parameters[i] == console_in_breakdown[4])
+                                            {
+                                                parameter_name = console_in_breakdown[4];
+                                                parameters_name_id = i;
+                                                parameter_name_found = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (parameter_name_found == false)
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Not found the name for data description for columns");
+                                        ConsoleError("If you do not have valid name just write(#numeric): pie_ create |name| |dataset name| #numeric |vlaue parameter| /and it will name columns from 0 to n");
+                                        consoleInput = "";
+                                        break;
+                                    }
+
+                                    //Check for the values of the columns
+                                    if (console_in_breakdown[5] == "")
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Wrong name for data values");
+                                        consoleInput = "";
+                                        break;
+                                    }
+                                    else
+                                    {
+                                        for (int i = 0; i < parameters_list[dataset_id].Parameters.Count; i++)
+                                        {
+                                            if (parameters_list[dataset_id].Parameters[i] == console_in_breakdown[5])
+                                            {
+                                                parameter_value = console_in_breakdown[5];
+                                                parameter_value_found = true;
+                                            }
+                                        }
+                                    }
+
+                                    if (parameter_value_found == false)
+                                    {
+                                        ConsoleInHistory(consoleInput);
+                                        ConsoleError("Could not find value of the parameter for the column");
+                                        break;
+                                    }
+
+                                    //If evrything is correct then:
+
+                                    ConsoleInHistory(consoleInput);
+                                    //Create datapoint of new columnchart and ad it do List of column charts
+                                    CreatePieChart(parameter_value, parameter_name, parameters_name_id, dataset_name, chart_name);
+
+                                    //Create column chart
+                                    CreatePieChartJS(pie_charts[pie_charts.Count - 1]);
+
+                                    //Change current column chart
+                                    PieChartFinder c = new PieChartFinder();
+                                    c.Id = pie_charts.Count - 1;
+                                    c.Name = chart_name;
+                                    current_pie_chart = c;
 
                                     consoleInput = "";
                                     break;
@@ -1415,6 +1637,51 @@ namespace ScriptingData.Pages
         }
         #endregion
 
+        #region Toggle Between Charts
+        protected bool show_column_charts = true;
+        protected bool show_pie_charts = false;
+        protected bool show_line_charts = false;
+
+        public async Task OpenColumnCharts()
+        {
+            show_column_charts = true;
+            show_pie_charts = false;
+            show_line_charts = false;
+
+            await Task.Delay(10);
+
+            if(column_graphs.Count != 0)
+            {
+                ColumnGraph c = column_graphs[current_column_chart.Id];
+                await CreateGraphJS(c);
+            }
+
+
+        }
+
+        public async Task OpenPieCharts()
+        {
+            show_column_charts = false;
+            show_pie_charts = true;
+            show_line_charts = false;
+
+            await Task.Delay(10);
+            if (pie_charts.Count != 0)
+            {
+                PieChart c = pie_charts[current_pie_chart.Id];
+                await CreatePieChartJS(c);
+            }
+        }
+
+        public async Task OpenLineCharts()
+        {
+            show_column_charts = false;
+            show_pie_charts = false;
+            show_line_charts = true;
+        }
+
+        #endregion
+
         #region Console Output Functions
 
         /// <summary>
@@ -2090,6 +2357,9 @@ namespace ScriptingData.Pages
 
         }
         #endregion
+
+
+        //Comlumn chart section
 
         #region Create Column Chart
 
@@ -2988,6 +3258,274 @@ namespace ScriptingData.Pages
             }
         }
         #endregion
+
+        //End of column chart section
+
+        //Pie chart section
+
+        #region Create Pie Chart
+
+        /// <summary>
+        /// This function will create pie chart
+        /// </summary>
+        /// <param name="parameter">Parameter on which user want to create pie chart</param>
+        /// <param name="dataset_name">Name of dataset from which user wants to create coulumn graph</param>
+        public void CreatePieChart(string parameter, string parameter_names, int parameter_name_id, string dataset_name, string pie_chart_name)
+        {
+            int param_Id = 0;
+            int dataset_Id = 0;
+
+
+            bool param_found = false;
+            bool dataset_found = false;
+
+            //Check for dataset
+            for (int i = 0; i < Data_Sets_List.Count; i++)
+            {
+                if (Data_Sets_List[i].Name == dataset_name)
+                {
+                    dataset_Id = i;
+                    //If dataset found
+                    dataset_found = true;
+                }
+            }
+
+
+            //Check for the right parameter
+            if (dataset_found == true)
+            {
+                for (int i = 0; i < parameters_list[dataset_Id].Parameters.Count; i++)
+                {
+                    if (parameters_list[dataset_Id].Parameters[i] == parameter)
+                    {
+                        param_Id = i;
+                        //If param found
+                        param_found = true;
+                    }
+                }
+            }
+
+
+
+            //If it found the dataset and parameter
+            if (dataset_found == true && param_found == true)
+            {
+                bool error = false;
+                PieChart new_pie_chart = new PieChart();
+
+                //If user wants to use other rows to name columns in the chart
+                if (parameter_names != "#numeric")
+                {
+                    for (int i = 0; i < Data_Sets_List[dataset_Id].Data.Count; i++)
+                    {
+                        PiePart p = new PiePart();
+                        p.DataPoint = Data_Sets_List[dataset_Id].Data[i].Row[param_Id].DoubleData;
+                        p.Id = i;
+                        p.Name = Data_Sets_List[dataset_Id].Data[i].Row[parameter_name_id].StringData;
+                        new_pie_chart.PieParts.Add(p);
+
+                    }
+
+                }//If user wants to name columns by numbers from 0 to n where n is ammount of parts
+                else if (parameter_names == "#numeric")
+                {
+                    for (int i = 0; i < Data_Sets_List[dataset_Id].Data.Count; i++)
+                    {
+                        PiePart p = new PiePart();
+                        p.Id = i;
+                        p.DataPoint = Data_Sets_List[dataset_Id].Data[i].Row[param_Id].DoubleData;
+                        p.Name = i.ToString();
+                        new_pie_chart.PieParts.Add(p);
+                    }
+                }
+
+
+                //If there is no errors create pie chart
+                if (error == false)
+                {
+                    if (pie_charts.Count == 0)
+                    {
+                        new_pie_chart.Id = 0;
+                    }
+                    else
+                    {
+                        new_pie_chart.Id = pie_charts.Count;
+                    }
+
+                    new_pie_chart.Name = pie_chart_name;
+                    new_pie_chart.DataVariableName = parameter;
+                    new_pie_chart.DataSetName = dataset_name;
+                    pie_charts.Add(new_pie_chart);
+                    ConsoleInfo("Pie chart has been created");
+                    ConsoleInfo(pie_charts.Count + " and " + current_pie_chart.Id);
+
+                    //Create item for toggleing
+                    PieChartFinder pf = new PieChartFinder();
+                    pf.Id = new_pie_chart.Id;
+                    pf.Name = new_pie_chart.Name;
+                    FourPieCharts.Add(pf);
+                }
+            }
+        }
+
+        protected async Task GeneratePieChart()
+        {
+            int id = current_pie_chart.Id;
+            PieChart c = new PieChart();
+
+            if(pie_charts.Count != 0 && pie_charts.Count >= id)
+            {
+                c = pie_charts[id];
+                CreatePieChartJS(c);
+            }
+        }
+
+
+        protected async Task CreatePieChartJS(PieChart g)
+        {
+            var parts = g.PieParts;
+            await JSRuntime.InvokeVoidAsync("GeneratePieChart", parts);
+        }
+
+
+        #endregion
+
+        #region toggleing pie charts
+        protected List<PieChartFinder> FourPieCharts = new List<PieChartFinder>();
+        protected PieChartFinder current_pie_chart = new PieChartFinder();
+
+
+        /// <summary>
+        /// This function will add Id to the list of 4 pie charts for toggleing them
+        /// </summary>
+        /// <param name="c"></param>
+        public void AddToFourPieCharts(PieChartFinder p)
+        {
+            if (FourPieCharts.Count < 4)
+            {
+                FourPieCharts.Add(p);
+            }
+        }
+
+        /// <summary>
+        ///This function will toggle between pie charts
+        /// </summary>
+        public void ChangePieChart(PieChartFinder p)
+        {
+            current_pie_chart = p;
+            GeneratePieChart();
+        }
+
+        /// <summary>
+        /// This function will load next 4 pie charts into 
+        /// </summary>
+        public void LoadNextFourPie()
+        {
+            if (pie_charts.Count > FourPieCharts.Count)
+            {
+                if (pie_charts.Count > FourPieCharts[FourPieCharts.Count - 1].Id)
+                {
+                    if ((pie_charts.Count - FourPieCharts.Count) >= 4)
+                    {
+
+                        if ((pie_charts.Count - FourPieCharts[3].Id) >= 4)
+                        {
+                            int x = FourPieCharts[3].Id;
+                            FourPieCharts.Clear();
+
+                            for (int i = x + 1; i < (x + 4); i++)
+                            {
+                                PieChartFinder c = new PieChartFinder();
+                                c.Name = pie_charts[i].Name;
+                                c.Id = pie_charts[i].Id;
+                                FourPieCharts.Add(c);
+                            }
+                        }
+                        else
+                        {
+                            int x = FourPieCharts[3].Id;
+                            FourPieCharts.Clear();
+
+                            for (int i = x + 1; i < pie_charts.Count; i++)
+                            {
+                                PieChartFinder c = new PieChartFinder();
+                                c.Name = pie_charts[i].Name;
+                                c.Id = pie_charts[i].Id;
+                                FourPieCharts.Add(c);
+                            }
+                        }
+
+                    }
+                    else
+                    {
+                        int x = FourPieCharts.Count;
+                        FourPieCharts.Clear();
+                        for (int i = x; i < pie_charts.Count; i++)
+                        {
+                            PieChartFinder c = new PieChartFinder();
+                            c.Name = pie_charts[i].Name;
+                            c.Id = pie_charts[i].Id;
+                            FourPieCharts.Add(c);
+                        }
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function will reset four pie chart list
+        /// </summary>
+        public void ResetFourPieChart()
+        {
+            if (pie_charts.Count > 0)
+            {
+                if (pie_charts.Count > 4)
+                {
+                    FourPieCharts.Clear();
+                    for (int i = 0; i < 4; i++)
+                    {
+                        PieChartFinder c = new PieChartFinder();
+                        c.Id = i;
+                        c.Name = pie_charts[i].Name;
+
+                        FourPieCharts.Add(c);
+                    }
+                }
+                else
+                {
+                    FourPieCharts.Clear();
+                    for (int i = 0; i < pie_charts.Count; i++)
+                    {
+                        PieChartFinder c = new PieChartFinder();
+                        c.Id = i;
+                        c.Name = pie_charts[i].Name;
+
+                        FourPieCharts.Add(c);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// This function will load previous 4 pie charts into 
+        /// </summary>
+        public void LoadPreviousFourPie()
+        {
+            int x = FourPieCharts[0].Id;
+            FourPieCharts.Clear();
+            for (int i = x - 4; i < x; i++)
+            {
+                PieChartFinder c = new PieChartFinder();
+                c.Name = column_graphs[i].Name;
+                c.Id = column_graphs[i].Id;
+                FourPieCharts.Add(c);
+            }
+        }
+
+
+        #endregion
+
+        //End of pie chart section
 
         #region Menu Toggler
         protected string menu_toggle_class = "menu_box_none";

@@ -641,7 +641,6 @@ namespace ScriptingData.Pages
                                         {
                                             if (Data_Sets_List[i].Name == console_in_breakdown[3])
                                             {
-                                                dataset_name = console_in_breakdown[3];
                                                 dataset_id = i;
                                                 dataset_found = true;
                                                 dataset_name = console_in_breakdown[3];
@@ -2456,6 +2455,7 @@ namespace ScriptingData.Pages
                     column_graphs.Add(new_coulumn);
                     ConsoleInfo("Coulumn chart has been created");
 
+                    OpenColumnCharts();
 
                     //Create item for toggleing
                     ColumnChartFinder cf = new ColumnChartFinder();
@@ -3355,15 +3355,23 @@ namespace ScriptingData.Pages
                     new_pie_chart.Name = pie_chart_name;
                     new_pie_chart.DataVariableName = parameter;
                     new_pie_chart.DataSetName = dataset_name;
+                    new_pie_chart.Id = pie_charts.Count;
                     pie_charts.Add(new_pie_chart);
-                    ConsoleInfo("Pie chart has been created");
-                    ConsoleInfo(pie_charts.Count + " and " + current_pie_chart.Id);
 
-                    //Create item for toggleing
-                    PieChartFinder pf = new PieChartFinder();
-                    pf.Id = new_pie_chart.Id;
-                    pf.Name = new_pie_chart.Name;
-                    FourPieCharts.Add(pf);
+                    
+
+                    ConsoleInfo("Pie chart has been created");
+                    OpenPieCharts();
+
+                    if (FourPieCharts.Count < 4)
+                    {
+                        //Create item for toggleing
+                        PieChartFinder pf = new PieChartFinder();
+                        pf.Id = new_pie_chart.Id;
+                        pf.Name = new_pie_chart.Name;
+                        FourPieCharts.Add(pf);
+                    }
+
                 }
             }
         }
@@ -3390,7 +3398,7 @@ namespace ScriptingData.Pages
 
         #endregion
 
-        #region toggleing pie charts
+        #region Toggleing pie charts
         protected List<PieChartFinder> FourPieCharts = new List<PieChartFinder>();
         protected PieChartFinder current_pie_chart = new PieChartFinder();
 
@@ -3516,13 +3524,49 @@ namespace ScriptingData.Pages
             for (int i = x - 4; i < x; i++)
             {
                 PieChartFinder c = new PieChartFinder();
-                c.Name = column_graphs[i].Name;
-                c.Id = column_graphs[i].Id;
+                c.Name = pie_charts[i].Name;
+                c.Id = pie_charts[i].Id;
                 FourPieCharts.Add(c);
             }
         }
 
 
+        #endregion
+
+        #region Large Pie Chart Toggle functions
+        /// <summary>
+        /// This object will store information about current open column chart
+        /// </summary>
+
+        protected bool large_pie_chart_toggler = false;
+        protected string lg_toggle_pie_class = "chart_lg_pie_box_none";
+
+
+        protected async Task GeneratePieChartLargeJS(PieChartFinder c)
+        {
+            PieChart g = pie_charts[current_pie_chart.Id];
+            var parts = g.PieParts;
+            await JSRuntime.InvokeVoidAsync("GenerateLargePieChart", parts);
+        }
+
+        public async void ToggleLgPieChart()
+        {
+            if (large_pie_chart_toggler == false)
+            {
+                large_pie_chart_toggler = true;
+                lg_toggle_pie_class = "chart_lg_pie_box";
+            }
+            else
+            {
+                large_pie_chart_toggler = false;
+                lg_toggle_pie_class = "chart_lg_pie_box_none";
+            }
+
+            if (large_pie_chart_toggler == true)
+            {
+                await GeneratePieChartLargeJS(current_pie_chart);
+            }
+        }
         #endregion
 
         //End of pie chart section

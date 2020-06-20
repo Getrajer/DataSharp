@@ -73,7 +73,7 @@
             <div class="graph_container">
                 <div class="title_container">
                     <div class="h_container"><h2>Charts</h2></div>
-                    <div class="btn_container"><button @onclick="OpenColumnCharts" class="menu_btn">Column Charts</button> <button @onclick="OpenLineCharts" class="menu_btn">Line Charts</button><button @onclick="OpenPieCharts"  class="menu_btn">Pie Charts</button> </div>
+                    <div class="btn_container"><button @onclick="OpenColumnCharts" class="menu_btn">Column Charts</button> <button @onclick="OpenLineCharts" class="menu_btn">Line Charts</button><button @onclick="OpenPieCharts" class="menu_btn">Pie Charts</button> </div>
                 </div>
 
                 <!--Column Charts Section-->
@@ -130,30 +130,30 @@
                 @if (show_pie_charts == true)
                 {
                     <div class="scroll_graphs">
-                        @if (FourColumnCharts.Count > 0)
+                        @if (FourPieCharts.Count > 0)
                         {
-                            @if (FourColumnCharts[0].Id != 0)
+                            @if (FourPieCharts[0].Id != 0)
                             {
                                 <div class="scroll">
-                                    <button @onclick="LoadPreviousFourColumn">&lt;---</button>
+                                    <button @onclick="LoadPreviousFourPie">&lt;---</button>
                                 </div>
                             }
                         }
 
-                        @foreach (var f in FourColumnCharts)
+                        @foreach (var f in FourPieCharts)
                         {
                             <div class="scroll">
-                                <button title="@f.Name" @onclick="@(e => ChangeCoulumnChart(f))">@f.Name</button>
+                                <button title="@f.Name" @onclick="@(e => ChangePieChart(f))">@f.Name</button>
                             </div>
                         }
 
 
-                        @if (FourColumnCharts.Count > 3)
+                        @if (FourPieCharts.Count > 3)
                         {
-                            @if (column_graphs.Count > (FourColumnCharts[3].Id + 1))
+                            @if (pie_charts.Count > (FourPieCharts[3].Id + 1))
                             {
                                 <div class="scroll">
-                                    <button @onclick="LoadNextFourColumn">---&gt;</button>
+                                    <button @onclick="LoadNextFourPie">---&gt;</button>
                                 </div>
                             }
                         }
@@ -163,10 +163,10 @@
                     <div class="chart_container">
                         <div id="chartdiv_pie"></div>
                     </div>
-                    @if (column_graphs.Count > 0)
+                    @if (pie_charts.Count > 0)
                     {
                         <div class="enlarge_btn_container">
-                            <button @onclick="ToggleLgColumnChart"><i class="fa fa-search"></i></button>
+                            <button @onclick="ToggleLgPieChart"><i class="fa fa-search"></i></button>
                         </div>
 
                         <div class="data_btn_container">
@@ -382,6 +382,14 @@
                     </p>
 
                     <p>
+                        <span class="command">pie_ create |name of chart| |dataset name| |name for the data point| |value for data point|</span> - This function will create pie chart
+                        <br />|name of chart| - this is custom name for chart
+                        <br />|dataset name| - name of dataset from which you want to get data from
+                        <br />|name for data poin| - name  for data point from dataset column label | if you do not have label write in here '#numeric'
+                        <br />|value for data point| - value for data point from dataset column label | IT NEEDS TO BE NUMERIC
+                    </p>
+
+                    <p>
                         <span class="command">sort |chart name| min max</span> - This function will sort chart from smallest value to highest.
                         <br />|chart name| - name of chart which will be sorted
                     </p>
@@ -561,6 +569,21 @@
     </section>
 </div>
 <!-------------------------->
+<!--This box will hold column chart when enlarged-->
+<div class="@lg_toggle_pie_class">
+    <section class="chart_lg">
+        <div class="chart_lg_container">
+            <div class="lg_chart_bac">
+                <div id="chartdiv_pie_large"></div>
+            </div>
+        </div>
+    </section>
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleLgPieChart">X</button>
+    </div>
+</div>
+<!----------------------------------------------->
+<!--This container will hold menu-->
 <div class="@menu_toggle_class">
     <section class="menu">
         <div class="menu_container">
@@ -733,6 +756,7 @@
         <button @onclick="ToggleMenu">Close menu</button>
     </div>
 </div>
+<!---->
 
 @code{
 

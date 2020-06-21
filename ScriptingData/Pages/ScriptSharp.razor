@@ -170,7 +170,7 @@
                         </div>
 
                         <div class="data_btn_container">
-                            <button @onclick="ToggleDataChart"><i class="fa fa-database"></i></button>
+                            <button @onclick="ToggleDataPieChart"><i class="fa fa-database"></i></button>
                         </div>
                     }
                 }
@@ -425,7 +425,12 @@
                         <br />|end index| - index to which delete data points
                     </p>
                     <p>
-                        <span class="command">remo coulumn chart |chart name| at |index|</span> - This function will delete chart data point on index
+                        <span class="command">remo coulumn chart |chart name| at |index|</span> - This function will delete column chart data point on index
+                        <br />|chart name| - name of chart from which to delete
+                        <br />|index| - index of point which to delete
+                    </p>
+                    <p>
+                        <span class="command">remo pie chart |chart name| at |index|</span> - This function will delete pie chart data point on index
                         <br />|chart name| - name of chart from which to delete
                         <br />|index| - index of point which to delete
                     </p>
@@ -537,7 +542,7 @@
     </section>
 </div>
 <!-------------------------->
-<!--Window for editing column object-->
+<!--Window for editing Column Data-->
 <div class="@edit_column_class_string">
     <section class="edit_column">
         <div class="edit_column_container">
@@ -583,6 +588,71 @@
     </div>
 </div>
 <!----------------------------------------------->
+<!--This box will show data of the pie chart-->
+<div class="@toggle_class_chart_pie_data">
+    <section class="data_chart">
+        <div class="data_chart_container">
+            <div class="data_background">
+                @if (display_pie_chart_data_object != null)
+                {
+                    <div class="title_container">
+                        <h1>@display_pie_chart_data_object.Name</h1>
+                    </div>
+                    <div class="table_container">
+                        <table>
+                            @foreach (var o in display_pie_chart_data_object.PieParts)
+                            {
+                                <tr>
+                                    <td>@o.Name + @o.Id</td>
+                                    <td>@o.DataPoint</td>
+                                    <td><button @onclick="@(e => ToggleEditPieObject(o.Id, display_data_object.Id))">Edit</button></td>
+                                    <td><button @onclick="@(e => RemoveFromPieChartByIndex(o.Id, display_data_object.Id))">Del</button></td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+
+                }
+            </div>
+        </div>
+    </section>
+    <div class="enlarge_btn_container">
+        <button @onclick="ToggleDataPieChart">X</button>
+    </div>
+</div>
+<!---------------------------------------->
+<!--Window for editing Pie data-->
+<div class="@edit_pie_class_string">
+    <section class="edit_column">
+        <div class="edit_column_container">
+            <div class="data_background">
+                <div class="title_container">
+                    <h1>Edit Row</h1>
+                </div>
+                <div class="edit_box">
+
+                    <div class="input-group_container">
+                        <label>Name</label>
+                        <input @bind="@edit_pie_part.Name" />
+                    </div>
+
+                    <div class="input-group_container">
+                        <label>Data point value</label>
+                        <input @bind="@edit_pie_part.DataPoint" />
+                    </div>
+
+                    <div class="button_container">
+                        <button @onclick="@(e => ToggleEditPieObject(0, 0))">Cancel</button>
+                        <br />
+                        <br />
+                        <button @onclick="EditPieObject">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+<!-------------------------->
 <!--This container will hold menu-->
 <div class="@menu_toggle_class">
     <section class="menu">

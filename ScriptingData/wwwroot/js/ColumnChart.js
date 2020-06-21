@@ -24,9 +24,9 @@
         },
         "categoryField": "name",
         "categoryAxis": {
-            "gridPosition": "start",
+            "gridPosition": "end",
             "gridAlpha": 0,
-            "tickPosition": "start",
+            "tickPosition": "end",
             "tickLength": 20
         },
         "export": {

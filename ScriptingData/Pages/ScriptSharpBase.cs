@@ -1809,9 +1809,9 @@ namespace ScriptingData.Pages
 
             int max_iteration = 0;
 
-            if (temp_list.Count >= 100)
+            if (temp_list.Count >= 50)
             {
-                max_iteration = 100;
+                max_iteration = 50;
             }
             else
             {
@@ -2488,7 +2488,7 @@ namespace ScriptingData.Pages
         }
         #endregion
 
-        #region Show Data From The Chart
+        #region Show Data From The Column Chart
         protected bool data_dable_chart_toggler = false;
         protected string toggle_class_chart_data = "chart_data_box_none";
 
@@ -2820,6 +2820,9 @@ namespace ScriptingData.Pages
 
             if (error == false)
             {
+                error_data_point_edit = "";
+                error_name_edit = "";
+
                 column_graphs[chart_edit_id].Columns[edit_column.Id] = edit_column;
                 CreateGraphJS(column_graphs[chart_edit_id]);
                 ToggleEditColumnObject(0, 0);
@@ -3567,6 +3570,142 @@ namespace ScriptingData.Pages
                 await GeneratePieChartLargeJS(current_pie_chart);
             }
         }
+        #endregion
+
+        #region Display Data from Pie Chart
+        protected bool data_dable_pie_chart_toggler = false;
+        protected string toggle_class_chart_pie_data = "chart_data_box_none";
+
+        public PieChart display_pie_chart_data_object = new PieChart();
+
+        /// <summary>
+        /// This function will toggle div which shows data of the chart
+        /// </summary>
+        public void ToggleDataPieChart()
+        {
+            if (data_dable_pie_chart_toggler == false)
+            {
+                data_dable_pie_chart_toggler = true;
+                toggle_class_chart_pie_data = "chart_data_pie_box";
+
+                if (column_graphs.Count > 0)
+                {
+                    display_pie_chart_data_object = pie_charts[current_pie_chart.Id];
+                }
+                else
+                {
+                    ConsoleError("There is not data for display!");
+                }
+            }
+            else
+            {
+                data_dable_pie_chart_toggler = false;
+                display_pie_chart_data_object = new PieChart();
+                toggle_class_chart_pie_data = "chart_data_box_pie_none";
+            }
+        }
+        #endregion
+
+        #region Edit Pie chart object
+        protected PiePart edit_pie_part = new PiePart();
+
+        protected bool edit_pie_toggler = false;
+        protected string edit_pie_class_string = "chart_data_box_pie_none";
+        protected int edit_Id_pie_part = 0;
+        protected int pie_chart_edit_id;
+
+        protected string error_data_point_pie_edit = "";
+        protected string error_name_pie_edit = "";
+
+        /// <summary>
+        /// This function will toggle edit column object window
+        /// </summary>
+        public void ToggleEditPieObject(int pie_Id, int pie_chart_Id)
+        {
+            if (edit_pie_toggler == false)
+            {
+                edit_pie_toggler = true;
+                edit_pie_class_string = "edit_pie_box";
+                edit_pie_part = pie_charts[pie_chart_Id].PieParts[pie_Id];
+                pie_chart_edit_id = pie_chart_Id;
+                edit_Id_pie_part = pie_Id;
+            }
+            else
+            {
+                edit_pie_toggler = false;
+                edit_pie_class_string = "chart_data_box_pie_none";
+                edit_pie_part = new PiePart();
+                pie_chart_edit_id = 0;
+                edit_Id_pie_part = 0;
+            }
+        }
+
+        /// <summary>
+        /// This function will edit variables in pie chart
+        /// </summary>
+        public void EditPieObject()
+        {
+            bool error = false;
+            if (edit_pie_part.Name == "" || edit_pie_part.Name == null)
+            {
+                error_name_pie_edit = "You need to enter anything for the name";
+                error = true;
+            }
+
+            string dbl = edit_pie_part.DataPoint.ToString().Replace('.', ',');
+
+            bool isDouble = IsDouble(dbl);
+
+            if (isDouble == false)
+            {
+                error_data_point_pie_edit = "Data point is not written as correct double!";
+                error = true;
+            }
+
+            if (error == false)
+            {
+                error_name_pie_edit = "";
+                error_data_point_pie_edit = "";
+
+                pie_charts[pie_chart_edit_id].PieParts[edit_Id_pie_part] = edit_pie_part;
+                CreatePieChartJS(pie_charts[pie_chart_edit_id]);
+                ToggleEditPieObject(0, 0);
+            }
+        }
+
+        #endregion
+
+        #region Delete objects form column chart (BY ID) (BY Range) (By Condition)
+
+        /// <summary>
+        /// This function will remove object from pie chart by index of variable user wants to remove
+        /// </summary>
+        /// <param name="idx">Index of pie object to remove</param>
+        /// <param name="chart_Id">Id of chart from which to remove</param>
+        public void RemoveFromPieChartByIndex(int idx, int chart_Id)
+        {
+            if (pie_charts[chart_Id] != null)
+            {
+                pie_charts[chart_Id].PieParts.RemoveAt(idx);
+
+                //If this chart is open reset view
+                if (current_pie_chart.Id == chart_Id)
+                {
+                    string chart_name = pie_charts[chart_Id].Name;
+
+                    ConsoleInfo($"Variable on index {idx} has been removed from chart {chart_name}");
+
+                    //Reset ID's
+                    for (int i = 0; i < pie_charts[chart_Id].PieParts.Count; i++)
+                    {
+                        pie_charts[chart_Id].PieParts[i].Id = i;
+                    }
+
+                    CreatePieChartJS(pie_charts[chart_Id]);
+                }
+            }
+        }
+
         #endregion
 
         //End of pie chart section

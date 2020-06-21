@@ -37,9 +37,9 @@ input:focus{
 }
 
 .page {
-    margin: 3em 0;
+    margin: 2em 0 1em 0;
     width: 100%;
-    min-height: 800px;
+    min-height: 880px;
     display: flex;
     justify-content: center;
     align-content:center;
@@ -231,7 +231,6 @@ h2{
     background-color: #38659c;
 }
 
-
 .graph h2 {
     text-align: center;
     letter-spacing: 5px;
@@ -264,11 +263,11 @@ h2{
     background-color: #38659c;
 }
 
-.graph .enlarge_btn_container{
-    position:absolute;
-    top:130px;
-    right:8px;
-    z-index:2;
+.graph .enlarge_btn_container {
+    position: absolute;
+    top: 130px;
+    right: 8px;
+    z-index: 2;
 }
 
 .graph .enlarge_btn_container button{
@@ -324,7 +323,6 @@ text{
     margin-top:2em;
     width: 100%;
     height: 340px;
-    overflow-y: scroll;
 }
 
 #chartdiv_pie tspan{
@@ -334,9 +332,6 @@ text{
 #chartdiv_pie polyline{
     stroke:white;
 }
-
-
-
 /*----------------------*/
 
 /*Style for data*/
@@ -427,8 +422,6 @@ text{
     cursor:grab;
 }
 
-
-
 .data th{
     border:2px solid rgb(27, 78, 139);
     color: #e8e8e8;
@@ -450,7 +443,6 @@ text{
 .data .sort_button:hover{
     color:#9d6f42;
 }
-
 
 .data td{
     border: 2px solid #386094;
@@ -522,8 +514,6 @@ text{
     color:white;
 }
 
-
-
 .chart_lg_box .enlarge_btn_container{
     position:absolute;
     top:20px;
@@ -541,7 +531,6 @@ text{
 .chart_lg_box .enlarge_btn_container button:hover{
     color:#9d6f42;
 }
-
 /*--------------------------------------*/
 
 /*Showcase data for the chart*/
@@ -596,8 +585,6 @@ text{
 #largeChartdiv svg {
     color: #fff !important;
 }
-
-
 
 .chart_data_box .data_chart_container {
     height: 100%;
@@ -945,7 +932,7 @@ text{
 }
 /*----------------------------------------------*/
 
-/*Enlarged column chart box*/
+/*Enlarged pie chart box*/
 .chart_lg_pie_box_none{
     display:none;
 }
@@ -1025,6 +1012,247 @@ text{
 }
 /*--------------------------------------*/
 
+/*Showcase data for the pie chart*/
+.chart_data_box_pie_none {
+    display: none;
+}
+
+.chart_data_pie_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.chart_data_pie_box .data_chart{
+    width: 1850px;
+    height: 100%;
+    background-color:rgba(43, 81, 128, 0.4);
+}
+
+.chart_data_pie_box .data_chart_container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    padding: 4em;
+}
+
+.chart_data_pie_box .data_background {
+    width:600px;
+    padding: 2em;
+    height:100%;
+    background-color: rgb(43, 81, 128);
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.chart_data_pie_box .title_container{
+    text-align:center;
+    width:100%;
+    margin: 1em 0;
+}
+
+.chart_data_pie_box h1{
+    color: white;
+    font-weight: 800;
+    text-transform:uppercase;
+}
+
+.chart_data_pie_box .table_container {
+    width: 100%;
+    height: 800px;
+    color: white;
+    overflow-y: scroll;
+    display:flex;
+    justify-content:center;
+}
+
+.chart_data_pie_box .table_container::-webkit-scrollbar {
+    background-color: #2b5180;
+    border-radius: unset;
+}
+
+.chart_data_pie_box .table_container::-webkit-scrollbar-thumb {
+    background-color: #8a6f54;
+    cursor: grab;
+}
+
+.chart_data_pie_box table{
+    height:500px;
+}
+
+.chart_data_pie_box td{
+    border: 2px solid #386094;
+    padding:0.4em;
+    text-align:center;
+}
+
+.chart_data_pie_box button{
+    background-color:white;
+    padding:0.2em;
+    color: rgb(43, 81, 128);
+    font-weight:700;
+    border-radius: 0.2em;
+    border:unset;
+    transition: 0.5s background-color;
+}
+
+.chart_data_pie_box table button:hover{
+    background-color:#9d6f42;
+}
+
+.chart_data_pie_box .enlarge_btn_container{
+    position:absolute;
+    top:20px;
+    right:50px;
+}
+
+.chart_data_pie_box .enlarge_btn_container button{
+    background-color: transparent;
+    color:white;
+    border:unset;
+    font-size:2rem;
+    cursor:pointer;
+
+    transition: 0.5s color;
+}
+
+.chart_data_pie_box .enlarge_btn_container button:hover{
+    color:#9d6f42;
+}
+/*--------------------------------------*/
+/*Showcase data for the chart*/
+.edit_pie_box_none {
+    display: none;
+}
+
+.edit_pie_box {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 100;
+}
+
+.edit_pie_box .edit_column_row {
+    width: 1850px;
+    height: 100%;
+    background-color: rgba(43, 81, 128, 0.4);
+}
+
+.edit_pie_box .edit_column_row_container{
+    height:100%;
+    width:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    align-content:center;
+    padding: 4em;
+}
+
+.edit_pie_box .data_background {
+    width:600px;
+    padding: 2em;
+    height:100%;
+    background-color: rgb(43, 81, 128);
+    display:flex;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.edit_pie_box .title_container{
+    text-align:center;
+    width:100%;
+    margin: 1em 0;
+}
+
+.edit_pie_box h1{
+    color: white;
+    font-weight: 800;
+    text-transform:uppercase;
+}
+
+.edit_pie_box .edit_box{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    justify-content:center;
+    flex-direction:column;
+}
+
+.edit_pie_box .input-group_container label{
+    display:block;
+    color:white;
+    font-weight: 600;
+    text-align:center;
+    margin:0.2em 0;
+}
+
+.edit_pie_box .input-group_container input{
+    display:block;
+    border: 2px solid #386094;
+    background-color:unset;
+    color:white;
+    text-align:center;
+    font-weight: 600;
+}
+
+
+
+.edit_pie_box .input-group_container input:focus {
+    border: 2px solid #9d6f42;
+}
+
+.edit_pie_box button {
+    background-color: white;
+    padding: 0.2em;
+    color: rgb(43, 81, 128);
+    font-weight: 700;
+    border-radius: 0.2em;
+    border: unset;
+    transition: 0.5s background-color;
+}
+
+.edit_pie_box button:hover{
+    background-color:#9d6f42;
+}
+
+.edit_pie_box .enlarge_btn_container{
+    position:absolute;
+    top:20px;
+    right:50px;
+}
+
+.edit_pie_box .enlarge_btn_container button{
+    background-color: transparent;
+    color:white;
+    border:unset;
+    font-size:2rem;
+    transition: 0.5s color;
+}
+
+.edit_pie_box .enlarge_btn_container button:hover{
+    color:#9d6f42;
+}
+
+/*--------------------*/
 /*Commands style*/
 .commands_box_none{
     display:none;
@@ -1089,7 +1317,7 @@ text{
 }
 
 .commands_box h1{
-    margin-top:20em;
+    margin-top:25em;
     font-size:2rem;
 }
 

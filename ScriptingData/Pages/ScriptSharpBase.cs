@@ -1625,6 +1625,19 @@ namespace ScriptingData.Pages
             InterpretConsole();
             consoleInput = "colu create Global_Sales games Name Global_Sales";
             InterpretConsole();
+
+            consoleInput = "pie_ create Na_Sales games Name NA_Sales";
+            InterpretConsole();
+            consoleInput = "pie_ create Eu_Sales games Name EU_Sales";
+            InterpretConsole();
+            consoleInput = "pie_ create Jp_Sales games Name JP_Sales";
+            InterpretConsole();
+            consoleInput = "pie_ create Other_Sales games Name Other_Sales";
+            InterpretConsole();
+            consoleInput = "pie_ create Global_Sales games Name Global_Sales";
+            InterpretConsole();
+
+
             consoleInput = "mean Na_Sales";
             InterpretConsole();
             consoleInput = "mean Eu_Sales";
@@ -1633,6 +1646,7 @@ namespace ScriptingData.Pages
             InterpretConsole();
             consoleInput = "mean Other_Sales";
             InterpretConsole();
+
         }
         #endregion
 
